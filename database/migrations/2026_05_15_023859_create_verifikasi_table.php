@@ -6,24 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        // create_verifikasis_table
         Schema::create('verifikasi', function (Blueprint $table) {
             $table->string('id_verifikasi', 10)->primary();
             $table->date('tanggal_verifikasi');
             $table->string('tahap_verifikasi', 20);
             $table->string('catatan', 250)->nullable();
-            $table->string('user_id_user', 10);
+
+            $table->unsignedBigInteger('user_id');
+
             $table->string('pengajuan_id_pengajuan', 10);
+
             $table->timestamps();
 
-            $table->foreign('user_id_user')
-                ->references('id_user')
-                ->on('user')
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->cascadeOnDelete();
 
             $table->foreign('pengajuan_id_pengajuan')
@@ -33,9 +32,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('verifikasi');

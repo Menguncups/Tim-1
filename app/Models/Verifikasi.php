@@ -19,7 +19,7 @@ class Verifikasi extends Model
         'tanggal_verifikasi',
         'tahap_verifikasi',
         'catatan',
-        'user_id_user',
+        'user_id',
         'pengajuan_id_pengajuan',
     ];
 
@@ -27,8 +27,8 @@ class Verifikasi extends Model
     {
         return $this->belongsTo(
             User::class,
-            'user_id_user',
-            'id_user'
+            'user_id',
+            'id'
         );
     }
 
