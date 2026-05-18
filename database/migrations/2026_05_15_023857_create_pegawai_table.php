@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_pegawai_table
         Schema::create('pegawai', function (Blueprint $table) {
             $table->string('id_pegawai', 10)->primary();
             $table->unsignedBigInteger('nip');
@@ -23,6 +22,9 @@ return new class extends Migration
             $table->string('no_hp_darurat', 14)->nullable();
             $table->string('homebase', 50);
             $table->string('email', 50);
+            $table->string('jabatan_fungsional', 50)->nullable();
+            $table->string('pangkat_golongan', 50)->nullable();
+
             $table->timestamps();
         });
     }

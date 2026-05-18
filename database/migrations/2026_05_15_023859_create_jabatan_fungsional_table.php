@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_jabatan_fungsionals_table
         Schema::create('jabatan_fungsional', function (Blueprint $table) {
             $table->string('id_pengajuan', 10)->primary();
-            $table->string('nama_jabatan', 25);
+            $table->string('id_pegawai', 10); 
+            $table->string('nama_jabatan', 50);
             $table->date('tmt');
-            $table->string('berkas_pendukung', 100);
+            $table->string('dokumen_sk_cpns', 255)->nullable();
+            $table->string('dokumen_sk_pns', 255)->nullable();
+            $table->string('dokumen_pak', 255)->nullable();
+            $table->string('dokumen_publikasi_ilmiah', 255)->nullable();
             $table->timestamps();
-
             $table->foreign('id_pengajuan')
                 ->references('id_pengajuan')
                 ->on('pengajuan')
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
         });
     }
 
