@@ -302,4 +302,29 @@ class PengajuanController extends Controller
 
         return redirect('/pengajuan');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNGSI TAMBAHAN UNTUK MENAMPILKAN HALAMAN READ (TABEL/LIST)
+    |--------------------------------------------------------------------------
+    */
+
+    public function readJabfung()
+    {
+        // Ubah nama variabelnya menjadi $data
+        $data = JabatanFungsional::with('pegawai')->get();
+
+        // Kirimkan variabel $data ke view
+        return view('pengajuan.read_jabfung', compact('data')); 
+    }
+
+    public function readPanggol()
+    {
+        // Mengambil data pangkat golongan dari database (opsional jika butuh data)
+        $panggolData = PangkatGolongan::with('pegawai')->get();
+
+        // Mengarah ke resources/views/pengajuan/create_pangkat_golongan.blade.php 
+        // Catatan: Sesuaikan nama view di bawah jika kamu punya file khusus seperti 'read_panggol'
+        return view('pengajuan.create_pangkat_golongan', compact('panggolData')); 
+    }
 }
