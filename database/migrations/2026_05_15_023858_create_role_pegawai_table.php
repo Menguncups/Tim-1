@@ -6,12 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        // create_role_pegawai_table
         Schema::create('role_pegawai', function (Blueprint $table) {
             $table->string('role_id_role', 5);
             $table->string('pegawai_id_pegawai', 10);
@@ -31,9 +27,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('role_pegawai');

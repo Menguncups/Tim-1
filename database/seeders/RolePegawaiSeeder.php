@@ -11,16 +11,22 @@ class RolePegawaiSeeder extends Seeder
     {
         DB::table('role_pegawai')->insert([
             [
-                'role_id_role' => 'R001',
+                'role_id_role' => 'R003',
                 'pegawai_id_pegawai' => 'PG001',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'role_id_role' => 'R001',
+                'pegawai_id_pegawai' => 'PG002',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'role_id_role' => 'R002',
-                'pegawai_id_pegawai' => 'PG002',
-            ],
-            [
-                'role_id_role' => 'R003',
                 'pegawai_id_pegawai' => 'PG003',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }
