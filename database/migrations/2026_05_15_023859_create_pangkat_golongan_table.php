@@ -11,21 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // create_pangkat_golongans_table
         Schema::create('pangkat_golongan', function (Blueprint $table) {
+            // Kolom Penghubung (Sesuai Skema Relational.pdf)
             $table->string('id_pengajuan', 10)->primary();
-            $table->string('pangkat', 25);
-            $table->string('golongan', 5);
+            $table->string('id_pegawai', 10); 
+            $table->string('pangkat', 25);     
+            $table->string('golongan', 15);   
             $table->date('tmt');
-            $table->string('berkas_pendukung', 100);
+            $table->string('dokumen_sk_cpns', 255)->nullable();
+            $table->string('dokumen_sk_pns', 255)->nullable();
+            $table->string('dokumen_pak', 255)->nullable();
+            $table->string('dokumen_publikasi_ilmiah', 255)->nullable();
             $table->timestamps();
-
             $table->foreign('id_pengajuan')
                 ->references('id_pengajuan')
                 ->on('pengajuan')
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
         });
     }
+    
 
     /**
      * Reverse the migrations.

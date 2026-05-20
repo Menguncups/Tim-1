@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -16,9 +15,13 @@ class JabatanFungsional extends Model
 
     protected $fillable = [
         'id_pengajuan',
+        'id_pegawai',
         'nama_jabatan',
         'tmt',
-        'berkas_pendukung',
+        'dokumen_sk_cpns',
+        'dokumen_sk_pns',
+        'dokumen_pak',
+        'dokumen_publikasi_ilmiah',
     ];
 
     public function pengajuan()

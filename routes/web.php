@@ -70,6 +70,11 @@ Route::prefix('dosten')->group(function () {
     Route::get('/pengajuan/surtug', [DostenController::class, 'surtug'])
         ->name('dosten.surtug.index');
 
+    Route::delete(
+    '/pengajuan/jabfung/{id}',
+    [PengajuanController::class, 'destroy']
+);
+
     Route::get('/pengajuan/surtug/create', [DostenController::class, 'createSuratTugas'])
         ->name('dosten.surtug.create');
 
@@ -91,6 +96,9 @@ Route::prefix('dosten')->group(function () {
     Route::get('/pengajuan/panggol/create', [DostenController::class, 'createPanggol'])
         ->name('dosten.panggol.create');
 
+    Route::put('/pengajuan/panggol/update/{id}', [PengajuanController::class, 'updatePangkatGolongan']);
+
+    Route::delete('/pengajuan/panggol/{id}',[PengajuanController::class,'destroyPanggol']);
     Route::post('/pengajuan/panggol/store', [DostenController::class, 'storePanggol'])
         ->name('dosten.panggol.store');
 });

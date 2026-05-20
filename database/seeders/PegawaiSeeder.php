@@ -9,6 +9,7 @@ class PegawaiSeeder extends Seeder
 {
     public function run(): void
     {
+        // PG001: Khusus Operator / Admin Fakultas
         Pegawai::create([
             'id_pegawai' => 'PG001',
             'nip' => '198765432100000001',
@@ -25,6 +26,7 @@ class PegawaiSeeder extends Seeder
             'foto' => null,
         ]);
 
+        // PG002: Khusus Dosen Riil Fakultas Teknik UNRI
         Pegawai::create([
             'id_pegawai' => 'PG002',
             'nip' => '198765432100000002',
@@ -41,6 +43,7 @@ class PegawaiSeeder extends Seeder
             'foto' => null,
         ]);
 
+        // PG003: Khusus Pimpinan / Dekan / WD
         Pegawai::create([
             'id_pegawai' => 'PG003',
             'nip' => '198765432100000003',
