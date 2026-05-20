@@ -98,6 +98,11 @@ Route::prefix('dosen')->group(function () {
 
     Route::put('/pengajuan/jabfung/update/{id}', [PengajuanController::class, 'updateJabatanFungsional']);
 
+    Route::delete(
+    '/pengajuan/jabfung/{id}',
+    [PengajuanController::class, 'destroy']
+);
+
 
 
     /*
@@ -115,6 +120,8 @@ Route::prefix('dosen')->group(function () {
     Route::get('/pengajuan/panggol/edit/{id}', [PengajuanController::class, 'editPangkatGolongan']);
 
     Route::put('/pengajuan/panggol/update/{id}', [PengajuanController::class, 'updatePangkatGolongan']);
+
+    Route::delete('/pengajuan/panggol/{id}',[PengajuanController::class,'destroyPanggol']);
 });
 
 

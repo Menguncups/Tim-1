@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Jabatan Fungsional — FT UNRI</title>
+    <title>Pangkat Golongan — FT UNRI</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -57,12 +57,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/dosen/pengajuan/jabfung" class="nav-link active">
+                        <a href="/dosen/pengajuan/jabfung" class="nav-link">
                             <i class="bi bi-person-vcard"></i> Jabatan Fungsional
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/dosen/pengajuan/panggol" class="nav-link">
+                        <a href="/dosen/pengajuan/panggol" class="nav-link active">
                             <i class="bi bi-award"></i> Pangkat Golongan
                         </a>
                     </li>
@@ -84,8 +84,8 @@
                         <i class="bi bi-person-vcard-fill"></i>
                     </div>
                     <div>
-                        <h4 class="page-title mb-0">Jabatan Fungsional</h4>
-                        <p class="page-sub mb-0">Informasi Jabatan Fungsional dosen/tenaga kependidikan</p>
+                        <h4 class="page-title mb-0">Pangkat Golongan</h4>
+                        <p class="page-sub mb-0">Informasi Pangkat Golongan dosen/tenaga kependidikan</p>
                     </div>
                 </div>
 
@@ -131,18 +131,18 @@
 
                 <div class="section-sep mt-4">
                     <span class="section-sep-label">
-                        <i class="bi bi-table me-1"></i> Riwayat Jabatan Fungsional
+                        <i class="bi bi-table me-1"></i> Riwayat Pangkat Golongan
                     </span>
                 </div>
 
                 <div class="info-section">
                     <div class="info-section-header">
                         <div class="info-section-title">
-                            <i class="bi bi-archive-fill"></i> Data Riwayat Jabatan
+                            <i class="bi bi-archive-fill"></i> Data Riwayat Pangkat Golongan
                         </div>
 
                         @if(!$pengajuanAktif)
-                            <a href="/dosen/pengajuan/jabfung/create" class="btn btn-primary btn-sm d-flex align-items-center gap-2" style="background-color: #b52a20; border-color: #b52a20; padding: 6px 14px; font-weight: 500; border-radius: 6px;">
+                            <a href="/dosen/pengajuan/panggol/create" class="btn btn-primary btn-sm d-flex align-items-center gap-2" style="background-color: #b52a20; border-color: #b52a20; padding: 6px 14px; font-weight: 500; border-radius: 6px;">
                                 <i class="bi bi-plus-lg"></i> Tambah Pengajuan
                             </a>
                         @else
@@ -155,11 +155,11 @@
                     
                     
                     <div class="table-wrapper">
-                        <table id="jabfungTable" class="custom-table table align-middle">
+                        <table id="panggolTable" class="custom-table table align-middle">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Jabatan</th>
+                                    <th>Pangkat / Golongan</th>
                                     <th>Tanggal Pengajuan</th>
                                     <th>Berkas</th>
                                     <th>Status</th>
@@ -169,7 +169,9 @@
                                 @foreach($data as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $item->nama_jabatan }}</td>
+                                   <td>
+                                    {{ $item->pangkat }} - {{ $item->golongan }}
+                                    </td>
                                     <td>
                                         {{ $item->tmt ? \Carbon\Carbon::parse($item->tmt)->translatedFormat('d F Y') : '-' }}
                                     </td>
@@ -222,10 +224,8 @@
                                                 $item->pengajuan &&
                                                 $item->pengajuan->status=='menunggu'
                                                 )
-                                                <a href="/dosen/pengajuan/jabfung/edit/{{ $item->id_pengajuan }}" class="btn-action" title="Edit">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                                <form action="/dosen/pengajuan/jabfung/{{ $item->id_pengajuan }}" method="POST" style="display:inline;">
+                                                <a href="/dosen/pengajuan/panggol/edit/{{ $item->id_pengajuan }}"
+                                               <form action="/dosen/pengajuan/panggol/{{ $item->id_pengajuan }}"
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn-action text-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">

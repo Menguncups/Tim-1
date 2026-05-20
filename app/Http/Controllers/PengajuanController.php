@@ -140,6 +140,25 @@ class PengajuanController extends Controller
             $idPengajuan = 'P' . substr(time(), 1);
             $idPegawai = $request->pegawai_id_pegawai;
 
+            $cek=Pengajuan::where(
+    'pegawai_id_pegawai',
+    $idPegawai
+)
+->whereIn(
+    'status',
+    ['menunggu','diproses']
+)
+->exists();
+
+if($cek){
+
+    return response()->json([
+        'success'=>false,
+        'message'=>'Masih ada pengajuan yang sedang diproses'
+    ],422);
+
+}
+
             Pengajuan::create([
                 'id_pengajuan'       => $idPengajuan,
                 'tanggal_pengajuan'  => now(),
@@ -232,6 +251,25 @@ class PengajuanController extends Controller
             $idPengajuan = 'P' . substr(time(), 1);
             $idPegawai = $request->pegawai_id_pegawai;
 
+            $cek=Pengajuan::where(
+    'pegawai_id_pegawai',
+    $idPegawai
+)
+->whereIn(
+    'status',
+    ['menunggu','diproses']
+)
+->exists();
+
+if($cek){
+
+    return response()->json([
+        'success'=>false,
+        'message'=>'Masih ada pengajuan yang sedang diproses'
+    ],422);
+
+}
+
             $rawPanggol = $request->pangkat_baru;
             $parts = explode('-', $rawPanggol);
             $pangkat = $parts[0] ?? '';   
@@ -297,11 +335,28 @@ class PengajuanController extends Controller
     }
 
     public function destroy($id)
-    {
-        Pengajuan::destroy($id);
+{
+    $pengajuan = Pengajuan::findOrFail($id);
 
-        return redirect('/pengajuan');
+    if($pengajuan->status != 'menunggu'){
+        return back()->with(
+            'error',
+            'Pengajuan tidak dapat dihapus'
+        );
     }
+
+    JabatanFungsional::where(
+        'id_pengajuan',
+        $id
+    )->delete();
+
+    $pengajuan->delete();
+
+    return back()->with(
+        'success',
+        'Data berhasil dihapus'
+    );
+}
 
     /*
     |--------------------------------------------------------------------------
@@ -310,21 +365,127 @@ class PengajuanController extends Controller
     */
 
     public function readJabfung()
-    {
-        // Ubah nama variabelnya menjadi $data
-        $data = JabatanFungsional::with('pegawai')->get();
+{
+    $pegawaiId='PG002'; // sementara dummy
 
-        // Kirimkan variabel $data ke view
-        return view('pengajuan.read_jabfung', compact('data')); 
+    $pegawai = Pegawai::where(
+        'id_pegawai',
+        $pegawaiId
+    )->first();
+
+    $data = JabatanFungsional::with('pengajuan')
+    ->whereHas('pengajuan', function($q) use ($pegawaiId){
+        $q->where(
+            'pegawai_id_pegawai',
+            $pegawaiId
+        );
+    })
+    ->get();
+
+    $pengajuanAktif = Pengajuan::where(
+            'pegawai_id_pegawai',
+            $pegawaiId
+        )
+        ->whereIn(
+            'status',
+            ['menunggu','diproses']
+        )
+        ->exists();
+
+    return view(
+        'pengajuan.read_jabfung',
+        compact(
+            'data',
+            'pegawai',
+            'pengajuanAktif'
+        )
+    );
+}
+
+public function editJabatanFungsional($id)
+{
+    $data = JabatanFungsional::with(
+        'pengajuan'
+    )->findOrFail($id);
+
+    if(
+       !$data->pengajuan ||
+       $data->pengajuan->status!='menunggu'
+    ){
+
+        return redirect(
+            '/dosen/pengajuan/jabfung'
+        )->with(
+            'error',
+            'Pengajuan tidak dapat diubah'
+        );
     }
 
-    public function readPanggol()
-    {
-        // Mengambil data pangkat golongan dari database (opsional jika butuh data)
-        $panggolData = PangkatGolongan::with('pegawai')->get();
+    return view(
+        'pengajuan.create_jabatan_fungsional',
+        compact('data')
+    );
+}
 
-        // Mengarah ke resources/views/pengajuan/create_pangkat_golongan.blade.php 
-        // Catatan: Sesuaikan nama view di bawah jika kamu punya file khusus seperti 'read_panggol'
-        return view('pengajuan.create_pangkat_golongan', compact('panggolData')); 
+public function readPanggol()
+{
+    $pegawaiId='PG002';
+
+    $pegawai = Pegawai::where(
+        'id_pegawai',
+        $pegawaiId
+    )->first();
+
+    $data = PangkatGolongan::with('pengajuan')
+        ->whereHas('pengajuan', function($q) use($pegawaiId){
+            $q->where(
+                'pegawai_id_pegawai',
+                $pegawaiId
+            );
+        })
+        ->get();
+
+    $pengajuanAktif = Pengajuan::where(
+        'pegawai_id_pegawai',
+        $pegawaiId
+    )
+    ->whereIn(
+        'status',
+        ['menunggu','diproses']
+    )
+    ->exists();
+
+    return view(
+        'pengajuan.read_panggol',
+        compact(
+            'pegawai',
+            'data',
+            'pengajuanAktif'
+        )
+    );
+}
+
+public function destroyPanggol($id)
+{
+    $pengajuan = Pengajuan::findOrFail($id);
+
+    if($pengajuan->status!='menunggu'){
+        return back()->with(
+            'error',
+            'Pengajuan tidak dapat dihapus'
+        );
     }
+
+    PangkatGolongan::where(
+        'id_pengajuan',
+        $id
+    )->delete();
+
+    $pengajuan->delete();
+
+    return back()->with(
+        'success',
+        'Data berhasil dihapus'
+    );
+}
 }
