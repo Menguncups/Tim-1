@@ -11,61 +11,62 @@
         <ul class="nav flex-column">
 
             <li class="nav-item">
-                <a href="{{ url('/operator/dashboard') }}"
-                    class="nav-link {{ request()->is('operator/dashboard') ? 'active' : '' }}">
+                <a href="{{ url('/dosten/dashboard') }}"
+                   class="nav-link {{ request()->is('dosten/dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-fill"></i>
                     Dashboard
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ url('/operator/daftar-pegawai') }}"
-                    class="nav-link {{ request()->is('operator/daftar-pegawai') ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i>
-                    Daftar Pegawai
+                <a href="{{ url('/dosten/data-diri') }}"
+                   class="nav-link {{ request()->is('dosten/data-diri') ? 'active' : '' }}">
+                    <i class="bi bi-person-fill"></i>
+                    Data Diri
                 </a>
             </li>
 
         </ul>
 
-        {{-- VALIDASI --}}
-        <div class="nav-group-label">Validasi</div>
+        {{-- PENGAJUAN --}}
+        <div class="nav-group-label">Pengajuan</div>
         <ul class="nav flex-column">
 
             <li class="nav-item">
                 <a class="nav-link d-flex justify-content-between align-items-center
-                   {{ request()->is('operator/verifikasi*') ? 'active' : '' }}"
-                    data-bs-toggle="collapse" href="#menuVerifikasi" role="button"
-                    aria-expanded="{{ request()->is('operator/verifikasi*') ? 'true' : 'false' }}">
+                   {{ request()->is('dosten/pengajuan*') ? 'active' : '' }}"
+                   data-bs-toggle="collapse" href="#menuPengajuan" role="button"
+                   aria-expanded="{{ request()->is('dosten/pengajuan*') ? 'true' : 'false' }}">
                     <span>
-                        <i class="bi bi-patch-check-fill me-2"></i>
-                        Validasi
+                        <i class="bi bi-send-fill me-2"></i>
+                        Pengajuan
                     </span>
                     <i class="bi bi-chevron-down small dropdown-icon"></i>
                 </a>
 
-                <div class="collapse {{ request()->is('operator/verifikasi*') ? 'show' : '' }}" id="menuVerifikasi">
+                <div class="collapse {{ request()->is('dosten/pengajuan*') ? 'show' : '' }}"
+                     id="menuPengajuan">
                     <ul class="submenu-list">
 
                         <li>
-                            <a href="{{ url('/operator/validasi/surtug') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/surtug') ? 'active' : '' }}">
+                            <a href="{{ url('/dosten/pengajuan/surtug') }}"
+                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/surtug') ? 'active' : '' }}">
                                 <i class="bi bi-envelope-paper-fill"></i>
                                 Surat Tugas
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url('/operator/validasi/jabfung') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/jabfung') ? 'active' : '' }}">
+                            <a href="{{ url('/dosten/pengajuan/jabfung') }}"
+                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/jabfung') ? 'active' : '' }}">
                                 <i class="bi bi-person-vcard-fill"></i>
                                 Jabfung
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url('/operator/validasi/panggol') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/panggol') ? 'active' : '' }}">
+                            <a href="{{ url('/dosten/pengajuan/panggol') }}"
+                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/panggol') ? 'active' : '' }}">
                                 <i class="bi bi-award-fill"></i>
                                 Panggol
                             </a>

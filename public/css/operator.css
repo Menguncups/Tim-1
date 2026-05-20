@@ -43,10 +43,17 @@ body {
 /* ---- CONTENT AREA ---- */
 .content-area {
     flex: 1;
-    padding: 32px 30px 48px;
     min-height: 100vh;
     background: var(--c-bg);
     overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    flex: 1;
+    padding: 32px 30px 48px;
 }
 
 /* ---- PAGE HEADER ---- */
@@ -69,6 +76,30 @@ body {
     font-size: 13px;
     color: var(--c-sub);
     margin: 0;
+}
+
+.du-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--c-red);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.28);
+}
+
+.header-icon i {
+    line-height: 1;
 }
 
 /* ---- TOMBOL TAMBAH ---- */
@@ -184,12 +215,21 @@ body {
 }
 
 /* ---- DATATABLE BASE ---- */
-#tabelPengguna {
+#tabelPengguna,
+#tabelSurtug,
+#tabelPanggol,
+#tabelJabfung,
+.tabel-dosten {
     font-size: 13.5px;
     border-collapse: separate;
     border-spacing: 0;
 }
-#tabelPengguna thead th {
+
+#tabelPengguna thead th,
+#tabelSurtug thead th,
+#tabelPanggol thead th,
+#tabelJabfung thead th,
+.tabel-dosten thead th {
     background: #f8fafc;
     font-size: 11px;
     font-weight: 700;
@@ -201,19 +241,38 @@ body {
     border-top: none !important;
     white-space: nowrap;
 }
-#tabelPengguna tbody td {
+
+#tabelPengguna tbody td,
+#tabelSurtug tbody td,
+#tabelJabfung tbody td,
+.tabel-dosten tbody td {
     padding: 14px 16px;
     vertical-align: middle;
     border-bottom: 1px solid #f0f3f8;
     color: var(--c-text);
 }
-#tabelPengguna tbody tr:last-child td {
+
+#tabelPengguna tbody tr:last-child td,
+#tabelSurtug tbody tr:last-child td,
+#tabelPanggol tbody tr:last-child td,
+#tabelJabfung tbody tr:last-child td,
+.tabel-dosten tbody tr:last-child td {
     border-bottom: none;
 }
-#tabelPengguna tbody tr {
+
+#tabelPengguna tbody tr,
+#tabelSurtug tbody tr,
+#tabelPanggol tbody tr,
+#tabelJabfung tbody tr,
+.tabel-dosten tbody tr {
     transition: background 0.15s;
 }
-#tabelPengguna tbody tr:hover td {
+
+#tabelPengguna tbody tr:hover td,
+#tabelSurtug tbody tr:hover td,
+#tabelPanggol tbody tr:hover td,
+#tabelJabfung tbody tr:hover td,
+.tabel-dosten tbody tr:hover td {
     background: #fafbff;
 }
 
@@ -289,36 +348,32 @@ body {
     border: 1px solid #d7bde2;
 }
 
-/* ---- STATUS ---- */
-.du-status {
+/* ---- JENIS KELAMIN ---- */
+.du-gender {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     padding: 4px 11px;
     border-radius: 99px;
     font-size: 11.5px;
     font-weight: 600;
+    white-space: nowrap;
 }
-.du-status::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    display: inline-block;
+
+.du-gender i {
+    font-size: 13px;
 }
-.du-status-on {
-    background: #eafaf1;
-    color: #1e8449;
+
+.du-gender-laki {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
 }
-.du-status-on::before {
-    background: #27ae60;
-}
-.du-status-off {
-    background: #fdf2f2;
-    color: #922b21;
-}
-.du-status-off::before {
-    background: #e74c3c;
+
+.du-gender-perempuan {
+    background: #fdf0f7;
+    color: #c2185b;
+    border: 1px solid #f8bbd0;
 }
 
 /* ---- AKSI BUTTONS ---- */
@@ -426,7 +481,7 @@ body {
 
 /* ---- RESPONSIVE ---- */
 @media (max-width: 768px) {
-    .content-area {
+    .page-content {
         padding: 16px;
     }
     .du-chip {
@@ -442,6 +497,16 @@ body {
     .btn-du-tambah {
         font-size: 12px;
         padding: 8px 14px;
+    }
+
+    .du-header-left {
+        align-items: flex-start;
+    }
+
+    .header-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 19px;
     }
 }
 
@@ -519,7 +584,15 @@ body {
 
 /* Perkecil kolom nomor */
 #tabelPengguna th:first-child,
-#tabelPengguna td:first-child {
+#tabelPengguna td:first-child,
+#tabelSurtug th:first-child,
+#tabelSurtug td:first-child,
+#tabelPanggol th:first-child,
+#tabelPanggol td:first-child,
+#tabelJabfung th:first-child,
+#tabelJabfung td:first-child,
+.tabel-dosten th:first-child,
+.tabel-dosten td:first-child {
     width: 55px !important;
     min-width: 55px !important;
     max-width: 55px !important;
@@ -687,4 +760,177 @@ body {
     .detail-profile-box {
         align-items: flex-start;
     }
+}
+
+/* ==============================
+   OPERATOR SURAT TUGAS
+============================== */
+
+.surtug-title {
+    font-weight: 700;
+    color: var(--c-text);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.surtug-meta {
+    font-size: 12px;
+    color: var(--c-sub);
+    margin-top: 3px;
+}
+
+.surtug-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.surtug-status-menunggu {
+    background: #fff8e6;
+    color: #b7791f;
+    border: 1px solid #f6d98b;
+}
+
+.surtug-status-divalidasi {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.surtug-status-ditolak {
+    background: #fdf2f2;
+    color: #c0392b;
+    border: 1px solid #f5c6c2;
+}
+
+.du-act-file {
+    background: #fff8e6;
+    color: #b7791f;
+    border-color: #f6d98b;
+}
+
+.du-act-file:hover {
+    background: #d97706;
+    color: #fff;
+    border-color: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.3);
+}
+
+.du-act-approve {
+    background: #eafaf1;
+    color: #1e8449;
+    border-color: #a9dfbf;
+}
+
+.du-act-approve:hover {
+    background: #27ae60;
+    color: #fff;
+    border-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+}
+
+.du-act-reject {
+    background: #fdf2f2;
+    color: #c0392b;
+    border-color: #f5c6c2;
+}
+
+.du-act-reject:hover {
+    background: #c0392b;
+    color: #fff;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.3);
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.tabel-pimpinan {
+    font-size: 13.5px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabel-pimpinan thead th {
+    background: #f8fafc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--c-sub);
+    padding: 13px 16px;
+    border-bottom: 2px solid var(--c-border) !important;
+    border-top: none !important;
+    white-space: nowrap;
+}
+
+.tabel-pimpinan tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f3f8;
+    color: var(--c-text);
+}
+
+.tabel-pimpinan tbody tr:hover td {
+    background: #fafbff;
+}
+
+.tabel-pimpinan th:first-child,
+.tabel-pimpinan td:first-child {
+    width: 55px !important;
+    min-width: 55px !important;
+    max-width: 55px !important;
+    text-align: center;
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.du-act-disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.detail-surtug-icon {
+    color: var(--c-red);
+    font-size: 38px;
 }

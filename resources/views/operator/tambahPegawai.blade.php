@@ -1,10 +1,7 @@
 @php
     $isEdit = isset($pegawai);
 
-    $selectedRoles = old(
-        'roles',
-        $isEdit ? $pegawai->roles->pluck('nama_role')->toArray() : []
-    );
+    $selectedRoles = old('roles', $isEdit ? $pegawai->roles->pluck('nama_role')->toArray() : []);
 @endphp
 
 <!DOCTYPE html>
@@ -22,6 +19,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/operatorSidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/createPegawai.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 </head>
 
 <body>
@@ -62,9 +60,7 @@
 
                     <form id="formData"
                         action="{{ $isEdit ? url('/operator/update-pegawai/' . $pegawai->id_pegawai) : url('/operator/tambah-data') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                        class="form-body"
+                        method="POST" enctype="multipart/form-data" class="form-body"
                         data-mode="{{ $isEdit ? 'edit' : 'create' }}">
                         @csrf
 
@@ -87,7 +83,7 @@
                         <div class="field-group d-flex flex-column align-items-center mb-4">
                             <label class="field-label" for="foto">
                                 <i class="bi bi-camera me-1"></i>Upload Pas Foto
-                                @if (! $isEdit)
+                                @if (!$isEdit)
                                     <span class="required-dot">*</span>
                                 @endif
                             </label>
@@ -101,17 +97,13 @@
                                         <small>JPG / PNG, maks. 2 MB</small>
                                     </div>
 
-                                    <img id="fotoPreview"
-                                        class="foto-preview"
+                                    <img id="fotoPreview" class="foto-preview"
                                         src="{{ $isEdit && !empty($pegawai->foto) ? asset('photo/' . $pegawai->foto) : '' }}"
                                         alt="Preview Foto"
                                         style="{{ $isEdit && !empty($pegawai->foto) ? 'display:block;' : 'display:none;' }}">
                                 </label>
 
-                                <input type="file"
-                                    id="foto"
-                                    name="foto"
-                                    class="d-none"
+                                <input type="file" id="foto" name="foto" class="d-none"
                                     accept="image/png, image/jpeg">
 
                                 <button type="button" id="fotoHapus" class="foto-hapus-btn"
@@ -121,7 +113,9 @@
                             </div>
 
                             <span id="error_foto" class="field-error">
-                                @error('foto') {{ $message }} @enderror
+                                @error('foto')
+                                    {{ $message }}
+                                @enderror
                             </span>
                         </div>
 
@@ -135,10 +129,7 @@
                             <div class="role-selector">
 
                                 <label class="role-card" data-role="dosen" data-group="A">
-                                    <input type="checkbox"
-                                        name="roles[]"
-                                        value="dosen"
-                                        class="role-checkbox"
+                                    <input type="checkbox" name="roles[]" value="dosen" class="role-checkbox"
                                         {{ in_array('dosen', $selectedRoles) ? 'checked' : '' }}>
 
                                     <div class="role-card-icon">
@@ -156,10 +147,7 @@
                                 </label>
 
                                 <label class="role-card" data-role="pimpinan" data-group="A">
-                                    <input type="checkbox"
-                                        name="roles[]"
-                                        value="pimpinan"
-                                        class="role-checkbox"
+                                    <input type="checkbox" name="roles[]" value="pimpinan" class="role-checkbox"
                                         {{ in_array('pimpinan', $selectedRoles) ? 'checked' : '' }}>
 
                                     <div class="role-card-icon">
@@ -177,10 +165,7 @@
                                 </label>
 
                                 <label class="role-card" data-role="operator" data-group="B">
-                                    <input type="checkbox"
-                                        name="roles[]"
-                                        value="operator"
-                                        class="role-checkbox"
+                                    <input type="checkbox" name="roles[]" value="operator" class="role-checkbox"
                                         {{ in_array('operator', $selectedRoles) ? 'checked' : '' }}>
 
                                     <div class="role-card-icon">
@@ -198,10 +183,7 @@
                                 </label>
 
                                 <label class="role-card" data-role="tendik" data-group="B">
-                                    <input type="checkbox"
-                                        name="roles[]"
-                                        value="tendik"
-                                        class="role-checkbox"
+                                    <input type="checkbox" name="roles[]" value="tendik" class="role-checkbox"
                                         {{ in_array('tendik', $selectedRoles) ? 'checked' : '' }}>
 
                                     <div class="role-card-icon">
@@ -226,7 +208,9 @@
                             </div>
 
                             <span id="error_role" class="field-error">
-                                @error('roles') {{ $message }} @enderror
+                                @error('roles')
+                                    {{ $message }}
+                                @enderror
                             </span>
                         </div>
 
@@ -241,15 +225,14 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="text"
-                                        id="nama"
-                                        name="nama"
-                                        class="field-input"
+                                    <input type="text" id="nama" name="nama" class="field-input"
                                         value="{{ old('nama', $pegawai->nama ?? '') }}"
                                         placeholder="Masukkan nama lengkap">
 
                                     <span id="error_nama" class="field-error">
-                                        @error('nama') {{ $message }} @enderror
+                                        @error('nama')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -259,30 +242,27 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="email"
-                                        id="email"
-                                        name="email"
-                                        class="field-input"
+                                    <input type="email" id="email" name="email" class="field-input"
                                         value="{{ old('email', $pegawai->email ?? '') }}"
                                         placeholder="contoh@unri.ac.id">
 
                                     <span id="error_email" class="field-error">
-                                        @error('email') {{ $message }} @enderror
+                                        @error('email')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
                                 <div class="field-group">
                                     <label class="field-label" for="password">
                                         <i class="bi bi-lock me-1"></i>Password
-                                        @if (! $isEdit)
+                                        @if (!$isEdit)
                                             <span class="required-dot">*</span>
                                         @endif
                                     </label>
 
                                     <div class="password-wrapper">
-                                        <input type="password"
-                                            id="password"
-                                            name="password"
+                                        <input type="password" id="password" name="password"
                                             class="field-input password-input"
                                             placeholder="{{ $isEdit ? 'Kosongkan jika tidak ingin mengubah password' : 'Masukkan password' }}">
 
@@ -292,7 +272,9 @@
                                     </div>
 
                                     <span id="error_password" class="field-error">
-                                        @error('password') {{ $message }} @enderror
+                                        @error('password')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -302,19 +284,14 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="text"
-                                        id="nip"
-                                        name="nip"
-                                        class="field-input"
-                                        value="{{ old('nip', $pegawai->nip ?? '') }}"
-                                        placeholder="18 digit NIP"
-                                        maxlength="18"
-                                        minlength="18"
-                                        inputmode="numeric"
-                                        pattern="[0-9]{18}">
+                                    <input type="text" id="nip" name="nip" class="field-input"
+                                        value="{{ old('nip', $pegawai->nip ?? '') }}" placeholder="18 digit NIP"
+                                        maxlength="18" minlength="18" inputmode="numeric" pattern="[0-9]{18}">
 
                                     <span id="error_nip" class="field-error">
-                                        @error('nip') {{ $message }} @enderror
+                                        @error('nip')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -325,19 +302,15 @@
                                             <span class="required-dot">*</span>
                                         </label>
 
-                                        <input type="text"
-                                            id="nidn"
-                                            name="nidn"
-                                            class="field-input"
+                                        <input type="text" id="nidn" name="nidn" class="field-input"
                                             value="{{ old('nidn', $pegawai->nidn ?? '') }}"
-                                            placeholder="10 digit NIDN"
-                                            maxlength="10"
-                                            minlength="10"
-                                            inputmode="numeric"
-                                            pattern="[0-9]{10}">
+                                            placeholder="10 digit NIDN" maxlength="10" minlength="10"
+                                            inputmode="numeric" pattern="[0-9]{10}">
 
                                         <span id="error_nidn" class="field-error">
-                                            @error('nidn') {{ $message }} @enderror
+                                            @error('nidn')
+                                                {{ $message }}
+                                            @enderror
                                         </span>
                                     </div>
                                 </div>
@@ -348,9 +321,7 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <select id="jenis_kelamin"
-                                        name="jenis_kelamin"
-                                        class="field-input field-select">
+                                    <select id="jenis_kelamin" name="jenis_kelamin" class="field-input field-select">
                                         <option value="">-- Pilih Jenis Kelamin --</option>
                                         <option value="Laki-laki"
                                             {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>
@@ -363,7 +334,9 @@
                                     </select>
 
                                     <span id="error_jk" class="field-error">
-                                        @error('jenis_kelamin') {{ $message }} @enderror
+                                        @error('jenis_kelamin')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -373,14 +346,14 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="date"
-                                        id="tanggal_lahir"
-                                        name="tanggal_lahir"
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
                                         class="field-input"
                                         value="{{ old('tanggal_lahir', $pegawai->tanggal_lahir ?? '') }}">
 
                                     <span id="error_tgl" class="field-error">
-                                        @error('tanggal_lahir') {{ $message }} @enderror
+                                        @error('tanggal_lahir')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -395,15 +368,14 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="text"
-                                        id="no_hp"
-                                        name="no_hp"
-                                        class="field-input"
+                                    <input type="text" id="no_hp" name="no_hp" class="field-input"
                                         value="{{ old('no_hp', $pegawai->no_hp ?? '') }}"
                                         placeholder="Contoh: 08123456789">
 
                                     <span id="error_hp" class="field-error">
-                                        @error('no_hp') {{ $message }} @enderror
+                                        @error('no_hp')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -412,15 +384,15 @@
                                         <i class="bi bi-phone-vibrate me-1"></i>No. HP Darurat
                                     </label>
 
-                                    <input type="text"
-                                        id="no_hp_darurat"
-                                        name="no_hp_darurat"
+                                    <input type="text" id="no_hp_darurat" name="no_hp_darurat"
                                         class="field-input"
                                         value="{{ old('no_hp_darurat', $pegawai->no_hp_darurat ?? '') }}"
                                         placeholder="Contoh: 08123456789">
 
                                     <span id="error_hp_darurat" class="field-error">
-                                        @error('no_hp_darurat') {{ $message }} @enderror
+                                        @error('no_hp_darurat')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -430,32 +402,56 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <select id="homebase"
-                                        name="homebase"
-                                        class="field-input field-select">
+                                    <select id="homebase" name="homebase" class="field-input field-select">
                                         <option value="">-- Pilih Homebase --</option>
 
                                         <optgroup label="S1">
-                                            <option value="S1 Teknik Sipil" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Sipil' ? 'selected' : '' }}>S1 Teknik Sipil</option>
-                                            <option value="S1 Teknik Mesin" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Mesin' ? 'selected' : '' }}>S1 Teknik Mesin</option>
-                                            <option value="S1 Teknik Elektro" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Elektro' ? 'selected' : '' }}>S1 Teknik Elektro</option>
-                                            <option value="S1 Teknik Kimia" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Kimia' ? 'selected' : '' }}>S1 Teknik Kimia</option>
-                                            <option value="S1 Teknik Lingkungan" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Lingkungan' ? 'selected' : '' }}>S1 Teknik Lingkungan</option>
-                                            <option value="S1 Arsitektur" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Arsitektur' ? 'selected' : '' }}>S1 Arsitektur</option>
-                                            <option value="S1 Teknik Informatika" {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Informatika' ? 'selected' : '' }}>S1 Teknik Informatika</option>
+                                            <option value="S1 Teknik Sipil"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Sipil' ? 'selected' : '' }}>
+                                                S1 Teknik Sipil</option>
+                                            <option value="S1 Teknik Mesin"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Mesin' ? 'selected' : '' }}>
+                                                S1 Teknik Mesin</option>
+                                            <option value="S1 Teknik Elektro"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Elektro' ? 'selected' : '' }}>
+                                                S1 Teknik Elektro</option>
+                                            <option value="S1 Teknik Kimia"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Kimia' ? 'selected' : '' }}>
+                                                S1 Teknik Kimia</option>
+                                            <option value="S1 Teknik Lingkungan"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Lingkungan' ? 'selected' : '' }}>
+                                                S1 Teknik Lingkungan</option>
+                                            <option value="S1 Arsitektur"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Arsitektur' ? 'selected' : '' }}>
+                                                S1 Arsitektur</option>
+                                            <option value="S1 Teknik Informatika"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'S1 Teknik Informatika' ? 'selected' : '' }}>
+                                                S1 Teknik Informatika</option>
                                         </optgroup>
 
                                         <optgroup label="D3">
-                                            <option value="D3 Teknik Sipil" {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Sipil' ? 'selected' : '' }}>D3 Teknik Sipil</option>
-                                            <option value="D3 Teknik Mesin" {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Mesin' ? 'selected' : '' }}>D3 Teknik Mesin</option>
-                                            <option value="D3 Teknik Elektro" {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Elektro' ? 'selected' : '' }}>D3 Teknik Elektro</option>
-                                            <option value="D3 Teknik Kimia" {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Kimia' ? 'selected' : '' }}>D3 Teknik Kimia</option>
-                                            <option value="D3 Teknologi Pulp dan Kertas" {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknologi Pulp dan Kertas' ? 'selected' : '' }}>D3 Teknologi Pulp dan Kertas</option>
+                                            <option value="D3 Teknik Sipil"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Sipil' ? 'selected' : '' }}>
+                                                D3 Teknik Sipil</option>
+                                            <option value="D3 Teknik Mesin"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Mesin' ? 'selected' : '' }}>
+                                                D3 Teknik Mesin</option>
+                                            <option value="D3 Teknik Elektro"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Elektro' ? 'selected' : '' }}>
+                                                D3 Teknik Elektro</option>
+                                            <option value="D3 Teknik Kimia"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknik Kimia' ? 'selected' : '' }}>
+                                                D3 Teknik Kimia</option>
+                                            <option value="D3 Teknologi Pulp dan Kertas"
+                                                {{ old('homebase', $pegawai->homebase ?? '') == 'D3 Teknologi Pulp dan Kertas' ? 'selected' : '' }}>
+                                                D3 Teknologi Pulp dan Kertas</option>
                                         </optgroup>
                                     </select>
 
                                     <span id="error_homebase" class="field-error">
-                                        @error('homebase') {{ $message }} @enderror
+                                        @error('homebase')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -465,26 +461,11 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <select id="pangkat_golongan"
-                                        name="pangkat_golongan"
+                                    <select id="pangkat_golongan" name="pangkat_golongan"
                                         class="field-input field-select">
                                         <option value="">-- Pilih Pangkat / Golongan --</option>
 
-                                        @foreach ([
-                                            'II/a - Pengatur Muda',
-                                            'II/b - Pengatur Muda Tk. I',
-                                            'II/c - Pengatur',
-                                            'II/d - Pengatur Tk. I',
-                                            'III/a - Penata Muda',
-                                            'III/b - Penata Muda Tk. I',
-                                            'III/c - Penata',
-                                            'III/d - Penata Tk. I',
-                                            'IV/a - Pembina',
-                                            'IV/b - Pembina Tk. I',
-                                            'IV/c - Pembina Utama Muda',
-                                            'IV/d - Pembina Utama Madya',
-                                            'IV/e - Pembina Utama',
-                                        ] as $pangkat)
+                                        @foreach (['II/a - Pengatur Muda', 'II/b - Pengatur Muda Tk. I', 'II/c - Pengatur', 'II/d - Pengatur Tk. I', 'III/a - Penata Muda', 'III/b - Penata Muda Tk. I', 'III/c - Penata', 'III/d - Penata Tk. I', 'IV/a - Pembina', 'IV/b - Pembina Tk. I', 'IV/c - Pembina Utama Muda', 'IV/d - Pembina Utama Madya', 'IV/e - Pembina Utama'] as $pangkat)
                                             <option value="{{ $pangkat }}"
                                                 {{ old('pangkat_golongan', $pegawai->pangkat_golongan ?? '') == $pangkat ? 'selected' : '' }}>
                                                 {{ $pangkat }}
@@ -493,7 +474,9 @@
                                     </select>
 
                                     <span id="error_pangkat" class="field-error">
-                                        @error('pangkat_golongan') {{ $message }} @enderror
+                                        @error('pangkat_golongan')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -503,15 +486,16 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <select id="jabatan_fungsional"
-                                        name="jabatan_fungsional"
+                                    <select id="jabatan_fungsional" name="jabatan_fungsional"
                                         class="field-input field-select"
                                         data-old="{{ old('jabatan_fungsional', $pegawai->jabatan_fungsional ?? '') }}">
                                         <option value="">-- Pilih Jabatan Fungsional --</option>
                                     </select>
 
                                     <span id="error_jabatan" class="field-error">
-                                        @error('jabatan_fungsional') {{ $message }} @enderror
+                                        @error('jabatan_fungsional')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
 
@@ -539,6 +523,8 @@
                 </div>
 
             </main>
+                        {{-- FOOTER --}}
+            @include('Footer.footer')
         </div>
 
     </div>

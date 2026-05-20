@@ -1,5 +1,5 @@
 // ================================================
-// verifikasiSideBar.js
+// pimpinanSideBar.js
 // ================================================
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ── Dropdown chevron: sinkronkan aria-expanded ──────────────────
     document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function (trigger) {
-        const targetId  = trigger.getAttribute('href') || trigger.getAttribute('data-bs-target');
+        const targetId   = trigger.getAttribute('href') || trigger.getAttribute('data-bs-target');
         const collapseEl = document.querySelector(targetId);
 
         if (!collapseEl) return;

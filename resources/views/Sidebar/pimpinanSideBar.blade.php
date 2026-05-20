@@ -11,61 +11,54 @@
         <ul class="nav flex-column">
 
             <li class="nav-item">
-                <a href="{{ url('/operator/dashboard') }}"
-                    class="nav-link {{ request()->is('operator/dashboard') ? 'active' : '' }}">
+                <a href="{{ url('/pimpinan/dashboard') }}"
+                   class="nav-link {{ request()->is('pimpinan/dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-fill"></i>
                     Dashboard
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="{{ url('/operator/daftar-pegawai') }}"
-                    class="nav-link {{ request()->is('operator/daftar-pegawai') ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i>
-                    Daftar Pegawai
-                </a>
-            </li>
-
         </ul>
 
-        {{-- VALIDASI --}}
-        <div class="nav-group-label">Validasi</div>
+        {{-- VERIFIKASI --}}
+        <div class="nav-group-label">Verifikasi</div>
         <ul class="nav flex-column">
 
             <li class="nav-item">
                 <a class="nav-link d-flex justify-content-between align-items-center
-                   {{ request()->is('operator/verifikasi*') ? 'active' : '' }}"
-                    data-bs-toggle="collapse" href="#menuVerifikasi" role="button"
-                    aria-expanded="{{ request()->is('operator/verifikasi*') ? 'true' : 'false' }}">
+                   {{ request()->is('pimpinan/verifikasi*') ? 'active' : '' }}"
+                   data-bs-toggle="collapse" href="#menuVerifikasi" role="button"
+                   aria-expanded="{{ request()->is('pimpinan/verifikasi*') ? 'true' : 'false' }}">
                     <span>
                         <i class="bi bi-patch-check-fill me-2"></i>
-                        Validasi
+                        Verifikasi
                     </span>
                     <i class="bi bi-chevron-down small dropdown-icon"></i>
                 </a>
 
-                <div class="collapse {{ request()->is('operator/verifikasi*') ? 'show' : '' }}" id="menuVerifikasi">
+                <div class="collapse {{ request()->is('pimpinan/verifikasi*') ? 'show' : '' }}"
+                     id="menuVerifikasi">
                     <ul class="submenu-list">
 
                         <li>
-                            <a href="{{ url('/operator/validasi/surtug') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/surtug') ? 'active' : '' }}">
+                            <a href="{{ url('/pimpinan/verifikasi/surtug') }}"
+                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/surtug') ? 'active' : '' }}">
                                 <i class="bi bi-envelope-paper-fill"></i>
                                 Surat Tugas
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url('/operator/validasi/jabfung') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/jabfung') ? 'active' : '' }}">
+                            <a href="{{ url('/pimpinan/verifikasi/jabfung') }}"
+                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/jabfung') ? 'active' : '' }}">
                                 <i class="bi bi-person-vcard-fill"></i>
                                 Jabfung
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{ url('/operator/validasi/panggol') }}"
-                                class="nav-link sub-link {{ request()->is('operator/validasi/panggol') ? 'active' : '' }}">
+                            <a href="{{ url('/pimpinan/verifikasi/panggol') }}"
+                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/panggol') ? 'active' : '' }}">
                                 <i class="bi bi-award-fill"></i>
                                 Panggol
                             </a>
