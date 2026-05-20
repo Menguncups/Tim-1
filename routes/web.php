@@ -44,23 +44,21 @@ Route::prefix('operator')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('dosen')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return view('dosen.dashboard');
-    });
-
-
-
+Route::prefix('datadiri')->group(function () {
+   
     /*
     |--------------------------------------------------------------------------
     | DATA DIRI
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/datadiri', [PegawaiController::class, 'show']);
-    Route::get('/datadiri/edit', [PegawaiController::class, 'edit']);
-    Route::put('/datadiri/update', [PegawaiController::class, 'update']);
+    Route::get('/{kategori}/read', [PegawaiController::class, 'showRead'])->name('pegawai.read');
+    
+    // URL Tampilan Form Ubah Kontak (Contoh: /biodata/dosen/update)
+    Route::get('/{kategori}/update', [PegawaiController::class, 'showEdit'])->name('pegawai.edit');
+    
+    // URL Eksekusi simpan data via AJAX POST dari form HTML kamu
+    Route::post('/{kategori}/update', [PegawaiController::class, 'processUpdate'])->name('pegawai.update');
 
 
 

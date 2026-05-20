@@ -2,52 +2,53 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pegawai extends Model
 {
-    protected $table = 'pegawai';
+    use HasFactory;
 
+    protected $table = 'pegawai'; 
     protected $primaryKey = 'id_pegawai';
-
     public $incrementing = false;
-
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_pegawai',
-        'nip',
-        'nidn',
-        'nama',
-        'jenis_kelamin',
-        'tanggal_lahir',
-        'no_hp',
-        'no_hp_darurat',
-        'homebase',
-        'email',
+        'id_pegawai', 'nip', 'nidn', 'nama', 'jenis_kelamin', 
+        'tgl_lahir', 'tempat_lahir', 'homebase', 'no_hp', 
+        'no_hp_darurat', 'email', 'foto'
     ];
 
-    public function user()
+    protected $casts = [
+        'tgl_lahir' => 'date',
+    ];
+
+    // =========================================================================
+    // ACCESSORS LOGIKA (Menghitung Kategori & Field HTML Tanpa Kolom Kategori)
+    // =========================================================================
+
+    // Menentukan kategori secara dinamis (Jika NIDN ada = dosen, jika kosong = tendik)
+    public function getKategoriAttribute()
     {
-        return $this->hasOne(User::class, 'pegawai_id_pegawai', 'id_pegawai');
+        return !empty($this->nidn) ? 'dosen' : 'tendik';
     }
 
-    public function pengajuan()
+    // Pendukung variasi tampilan Jabatan Fungsional di HTML Dosen
+    public function getJabatanFungsionalAttribute()
     {
-        return $this->hasMany(
-            Pengajuan::class,
-            'pegawai_id_pegawai',
-            'id_pegawai'
-        );
+        return !empty($this->nidn) ? 'Asisten Ahli' : '—';
     }
 
-    public function roles()
+    // Pendukung variasi tampilan Pangkat Golongan di HTML
+    public function getPangkatGolonganAttribute()
     {
-        return $this->belongsToMany(
-            Role::class,
-            'role_pegawai',
-            'pegawai_id_pegawai',
-            'role_id_role'
-        );
+        return !empty($this->nidn) ? 'Penata / III c' : 'Pengatur / II c';
+    }
+
+    // Pendukung variasi Jenis Pegawai di HTML Tendik
+    public function getJenisPegawaiAttribute()
+    {
+        return empty($this->nidn) ? 'Tenaga Kependidikan Tetap' : '—';
     }
 }
