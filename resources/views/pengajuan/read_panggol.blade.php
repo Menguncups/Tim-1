@@ -219,24 +219,44 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="aksi-group">
-                                            @if(
-                                                $item->pengajuan &&
-                                                $item->pengajuan->status=='menunggu'
-                                                )
-                                                <a href="/dosen/pengajuan/panggol/edit/{{ $item->id_pengajuan }}"
-                                               <form action="/dosen/pengajuan/panggol/{{ $item->id_pengajuan }}"
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn-action text-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
-                                            @else
-                                                -
-                                            @endif
-                                        </div>
-                                    </td>
+    <div class="aksi-group">
+
+        @if(
+            $item->pengajuan &&
+            $item->pengajuan->status=='menunggu'
+        )
+
+            <a href="/dosen/pengajuan/panggol/edit/{{ $item->id_pengajuan }}"
+               class="btn-action"
+               title="Edit">
+
+                <i class="bi bi-pencil-square"></i>
+            </a>
+
+            <form action="/dosen/pengajuan/panggol/{{ $item->id_pengajuan }}"
+                  method="POST"
+                  style="display:inline;">
+
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                        class="btn-action text-danger"
+                        title="Hapus"
+                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+
+                    <i class="bi bi-trash"></i>
+
+                </button>
+
+            </form>
+
+        @else
+            -
+        @endif
+
+    </div>
+</td>
                                 </tr>
                                 @endforeach
                             </tbody>
