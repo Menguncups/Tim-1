@@ -1,0 +1,319 @@
+:root {
+    --primary: #b52a20;
+    --primary-dark: #8c1e15;
+    --primary-light: #fdf1f0;
+
+    --tendik: #b52a20;
+    --tendik-light: #eafaf1;
+
+    --bg: #f0f2f7;
+    --card-bg: #ffffff;
+    --border: #e2e6ed;
+    --text-main: #1e2235;
+    --text-muted: #7a8099;
+    --radius-card: 16px;
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.content-area {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.page-content {
+    flex: 1;
+    padding: 32px 30px 48px;
+}
+
+.dd-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.dd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dd-header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(181, 42, 32, 0.28);
+}
+
+.dd-header-icon.role-tendik {
+    background: var(--tendik);
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25);
+}
+
+.dd-page-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 4px;
+}
+
+.dd-page-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.btn-dd-update {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(181, 42, 32, 0.25);
+    transition: 0.2s;
+}
+
+.btn-dd-update:hover {
+    background: var(--primary-dark);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-dd-update.role-tendik {
+    background: var(--tendik);
+    box-shadow: 0 3px 10px rgba(25, 135, 84, 0.25);
+}
+
+.btn-dd-update.role-tendik:hover {
+    background: #146c43;
+}
+
+.profile-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+    box-shadow: var(--shadow-card);
+}
+
+.profile-hero-card {
+    border-left: 4px solid var(--primary);
+}
+
+.profile-hero-card.role-tendik {
+    border-left-color: var(--tendik);
+}
+
+.profile-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 18px;
+    background: var(--primary-light);
+    border: 1.5px solid rgba(181, 42, 32, 0.18);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hero-avatar.role-tendik {
+    background: var(--tendik-light);
+    border-color: rgba(25, 135, 84, 0.22);
+}
+
+.hero-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-fallback {
+    width: 100%;
+    height: 100%;
+    color: var(--primary);
+    font-size: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-avatar.role-tendik .avatar-fallback {
+    color: var(--tendik);
+}
+
+.profile-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 8px;
+}
+
+.profile-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.role-badge.role-dosen {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid rgba(181, 42, 32, 0.25);
+}
+
+.role-badge.role-tendik {
+    background: var(--tendik-light);
+    color: var(--tendik);
+    border: 1px solid rgba(25, 135, 84, 0.25);
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+.section-title.role-tendik {
+    color: var(--tendik);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.info-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: #fff;
+}
+
+.info-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+
+.info-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    word-break: break-word;
+}
+
+@media (max-width: 992px) {
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-content {
+        padding: 4.5rem 1rem 1.5rem;
+    }
+
+    .dd-header-left {
+        align-items: flex-start;
+    }
+
+    .dd-header-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 19px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-hero-content {
+        align-items: flex-start;
+    }
+
+    .hero-avatar {
+        width: 76px;
+        height: 76px;
+        border-radius: 14px;
+    }
+
+    .profile-name {
+        font-size: 1.1rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-dd-update {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -1,16 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DostenController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LoginController::class, 'showLogin'])->name('login');
+Route::get('/login', [LoginController::class, 'showLogin'])->name('login.form');
+Route::post('/login', [LoginController::class, 'login'])->name('login.process');
 
+Route::get('/pilih-role', [LoginController::class, 'showRole'])->name('login.role');
+Route::post('/pilih-role', [LoginController::class, 'chooseRole'])->name('login.role.process');
 
-
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
 | OPERATOR
@@ -23,8 +26,24 @@ Route::prefix('operator')->group(function () {
         return view('operator.dashboard');
     });
 
-    Route::get('/tambah-data', [PegawaiController::class, 'create']);
-    Route::post('/tambah-data', [PegawaiController::class, 'store']);
+    Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
+
+    Route::get('/tambah-data', [PegawaiController::class, 'create'])->name('pegawai.create');
+    Route::post('/tambah-data', [PegawaiController::class, 'store'])->name('pegawai.store');
+
+    Route::get('/edit-pegawai/{id}', [PegawaiController::class, 'edit']);
+    Route::put('/update-pegawai/{id}', [PegawaiController::class, 'update']);
+
+    Route::delete('/hapus-pegawai/{id}', [PegawaiController::class, 'destroy']);
+
+    Route::get('/validasi/surtug', [VerifikasiController::class, 'operatorSurtug'])
+        ->name('operator.surtug.index');
+
+    Route::put('/validasi/surtug/{id}/proses', [VerifikasiController::class, 'prosesSurtug'])
+        ->name('operator.surtug.proses');
+
+    Route::put('/validasi/surtug/{id}/tolak', [VerifikasiController::class, 'tolakSurtug'])
+        ->name('operator.surtug.tolak');
 
     Route::get('/verifikasi/jabfung', [VerifikasiController::class, 'jabfung']);
     Route::post('/verifikasi/jabfung/{id}', [VerifikasiController::class, 'verifikasiJabfung']);
@@ -34,97 +53,55 @@ Route::prefix('operator')->group(function () {
 
     Route::get('/verifikasi/surtug', [VerifikasiController::class, 'surtug']);
     Route::post('/verifikasi/surtug/{id}', [VerifikasiController::class, 'verifikasiSurtug']);
+
+    Route::get('/verifikasi/tambah-pegawai', function () {
+        return redirect('/operator/tambah-data');
+    });
 });
 
+Route::prefix('dosten')->group(function () {
 
+    Route::get('/dashboard', [DostenController::class, 'dashboard']);
 
-/*
-|--------------------------------------------------------------------------
-| DOSEN / TENDIK
-|--------------------------------------------------------------------------
-*/
+    Route::get('/data-diri', [DostenController::class, 'dataDiri']);
+    Route::get('/data-diri/edit', [DostenController::class, 'editDataDiri']);
+    Route::post('/data-diri/update', [DostenController::class, 'updateDataDiri']);
 
-Route::prefix('dosen')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return view('dosen.dashboard');
-    });
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DATA DIRI
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/datadiri', [PegawaiController::class, 'show']);
-    Route::get('/datadiri/edit', [PegawaiController::class, 'edit']);
-    Route::put('/datadiri/update', [PegawaiController::class, 'update']);
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | SURAT TUGAS
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/pengajuan/surtug', [PengajuanController::class, 'readSurtug']);
-
-    Route::get('/pengajuan/surtug/create', [PengajuanController::class, 'createSuratTugas']);
-
-    Route::post('/pengajuan/surtug/store', [PengajuanController::class, 'storeSuratTugas']);
-
-    Route::get('/pengajuan/surtug/edit/{id}', [PengajuanController::class, 'editSuratTugas']);
-
-    Route::put('/pengajuan/surtug/update/{id}', [PengajuanController::class, 'updateSuratTugas']);
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | JABATAN FUNGSIONAL
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/pengajuan/jabfung', [PengajuanController::class, 'readJabfung']);
-
-    Route::get('/pengajuan/jabfung/create', [PengajuanController::class, 'createJabatanFungsional']);
-
-    Route::post('/pengajuan/jabfung/store', [PengajuanController::class, 'storeJabatanFungsional']);
-
-    Route::get('/pengajuan/jabfung/edit/{id}', [PengajuanController::class, 'editJabatanFungsional']);
-
-    Route::put('/pengajuan/jabfung/update/{id}', [PengajuanController::class, 'updateJabatanFungsional']);
+    Route::get('/pengajuan/surtug', [DostenController::class, 'surtug'])
+        ->name('dosten.surtug.index');
 
     Route::delete(
     '/pengajuan/jabfung/{id}',
     [PengajuanController::class, 'destroy']
 );
 
+    Route::get('/pengajuan/surtug/create', [DostenController::class, 'createSuratTugas'])
+        ->name('dosten.surtug.create');
 
+    Route::post('/pengajuan/surtug/store', [DostenController::class, 'storeSuratTugas'])
+        ->name('dosten.surtug.store');
 
-    /*
-    |--------------------------------------------------------------------------
-    | PANGKAT GOLONGAN
-    |--------------------------------------------------------------------------
-    */
+    Route::get('/pengajuan/jabfung', [DostenController::class, 'jabfung'])
+        ->name('dosten.jabfung.index');
 
-    Route::get('/pengajuan/panggol', [PengajuanController::class, 'readPanggol']);
+    Route::get('/pengajuan/jabfung/create', [DostenController::class, 'createJabfung'])
+        ->name('dosten.jabfung.create');
 
-    Route::get('/pengajuan/panggol/create', [PengajuanController::class, 'createPangkatGolongan']);
+    Route::post('/pengajuan/jabfung/store', [DostenController::class, 'storeJabfung'])
+        ->name('dosten.jabfung.store');
 
-    Route::post('/pengajuan/panggol/store', [PengajuanController::class, 'storePangkatGolongan']);
+    Route::get('/pengajuan/panggol', [DostenController::class, 'panggol'])
+        ->name('dosten.panggol.index');
 
-    Route::get('/pengajuan/panggol/edit/{id}', [PengajuanController::class, 'editPangkatGolongan']);
+    Route::get('/pengajuan/panggol/create', [DostenController::class, 'createPanggol'])
+        ->name('dosten.panggol.create');
 
     Route::put('/pengajuan/panggol/update/{id}', [PengajuanController::class, 'updatePangkatGolongan']);
 
     Route::delete('/pengajuan/panggol/{id}',[PengajuanController::class,'destroyPanggol']);
+    Route::post('/pengajuan/panggol/store', [DostenController::class, 'storePanggol'])
+        ->name('dosten.panggol.store');
 });
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -138,19 +115,21 @@ Route::prefix('pimpinan')->group(function () {
         return view('pimpinan.dashboard');
     });
 
-    Route::get('/persetujuan/jabfung', [VerifikasiController::class, 'persetujuanJabfung']);
+    Route::get('/verifikasi/surtug', [VerifikasiController::class, 'pimpinanSurtug'])
+        ->name('pimpinan.surtug.index');
 
-    Route::post('/persetujuan/jabfung/{id}', [VerifikasiController::class, 'setujuiJabfung']);
+    Route::put('/verifikasi/surtug/{id}/terima', [VerifikasiController::class, 'terimaSurtug'])
+        ->name('pimpinan.surtug.terima');
 
+    Route::put('/verifikasi/surtug/{id}/tolak', [VerifikasiController::class, 'tolakSurtugPimpinan'])
+        ->name('pimpinan.surtug.tolak');
 
+    Route::get('/verifikasi/jabfung', function () {
+        return view('pimpinan.pimpinanJabfung');
+    });
 
-    Route::get('/persetujuan/panggol', [VerifikasiController::class, 'persetujuanPanggol']);
+    Route::get('/verifikasi/panggol', function () {
+        return view('pimpinan.pimpinanPanggol');
+    });
 
-    Route::post('/persetujuan/panggol/{id}', [VerifikasiController::class, 'setujuiPanggol']);
-
-
-
-    Route::get('/persetujuan/surtug', [VerifikasiController::class, 'persetujuanSurtug']);
-
-    Route::post('/persetujuan/surtug/{id}', [VerifikasiController::class, 'setujuiSurtug']);
 });

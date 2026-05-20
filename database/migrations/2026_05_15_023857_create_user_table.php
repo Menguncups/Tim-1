@@ -12,14 +12,11 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-
             $table->string('email')->unique();
-
             $table->timestamp('email_verified_at')->nullable();
-
             $table->string('password');
 
-            $table->string('pegawai_id_pegawai', 10)->nullable();
+            $table->string('pegawai_id_pegawai', 10)->nullable()->unique();
 
             $table->foreign('pegawai_id_pegawai')
                 ->references('id_pegawai')
@@ -27,7 +24,6 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->rememberToken();
-
             $table->timestamps();
         });
 

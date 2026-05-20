@@ -1,0 +1,936 @@
+/* ================================================
+   daftarPengguna.css  —  Halaman Daftar Pengguna
+   ================================================ */
+
+/* ---- RESET & BASE ---- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --c-red: #c0392b;
+    --c-red-dk: #a93226;
+    --c-red-lt: #fdf2f2;
+    --c-blue: #2980b9;
+    --c-green: #27ae60;
+    --c-purple: #8e44ad;
+    --c-orange: #e67e22;
+    --c-text: #1a2332;
+    --c-sub: #64748b;
+    --c-border: #e2e8f0;
+    --c-bg: #f1f4f8;
+    --c-white: #ffffff;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-size: 14px;
+}
+
+/* ---- CONTENT AREA ---- */
+.content-area {
+    flex: 1;
+    min-height: 100vh;
+    background: var(--c-bg);
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    flex: 1;
+    padding: 32px 30px 48px;
+}
+
+/* ---- PAGE HEADER ---- */
+.du-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.du-page-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--c-text);
+    margin: 0 0 4px;
+    letter-spacing: -0.3px;
+}
+.du-page-sub {
+    font-size: 13px;
+    color: var(--c-sub);
+    margin: 0;
+}
+
+.du-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--c-red);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.28);
+}
+
+.header-icon i {
+    line-height: 1;
+}
+
+/* ---- TOMBOL TAMBAH ---- */
+.btn-du-tambah {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    background: var(--c-red);
+    color: #fff;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition:
+        background 0.2s,
+        transform 0.15s,
+        box-shadow 0.2s;
+    box-shadow: 0 3px 10px rgba(192, 57, 43, 0.28);
+    white-space: nowrap;
+}
+.btn-du-tambah:hover {
+    background: var(--c-red-dk);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(192, 57, 43, 0.35);
+}
+.btn-du-tambah i {
+    font-size: 15px;
+}
+
+/* ---- STAT CHIPS ---- */
+.du-chips {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.du-chip {
+    background: var(--c-white);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-sm);
+    flex: 1;
+    min-width: 130px;
+}
+.du-chip i {
+    font-size: 18px;
+}
+.du-chip-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--c-text);
+    line-height: 1;
+}
+.du-chip-lbl {
+    font-size: 12px;
+    color: var(--c-sub);
+    font-weight: 500;
+}
+
+/* ---- FILTER PILLS ---- */
+.du-filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.du-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 16px;
+    background: var(--c-white);
+    border: 1.5px solid var(--c-border);
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-sub);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+.du-pill i {
+    font-size: 13px;
+}
+.du-pill:hover {
+    border-color: var(--c-red);
+    color: var(--c-red);
+    background: var(--c-red-lt);
+}
+.du-pill.active {
+    background: var(--c-red);
+    border-color: var(--c-red);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(192, 57, 43, 0.25);
+}
+
+/* ---- TABLE WRAP ---- */
+.du-table-wrap {
+    background: var(--c-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-md);
+    padding: 24px 24px 16px;
+    overflow-x: auto;
+}
+
+/* ---- DATATABLE BASE ---- */
+#tabelPengguna,
+#tabelSurtug,
+#tabelPanggol,
+#tabelJabfung,
+.tabel-dosten {
+    font-size: 13.5px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#tabelPengguna thead th,
+#tabelSurtug thead th,
+#tabelPanggol thead th,
+#tabelJabfung thead th,
+.tabel-dosten thead th {
+    background: #f8fafc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--c-sub);
+    padding: 13px 16px;
+    border-bottom: 2px solid var(--c-border) !important;
+    border-top: none !important;
+    white-space: nowrap;
+}
+
+#tabelPengguna tbody td,
+#tabelSurtug tbody td,
+#tabelJabfung tbody td,
+.tabel-dosten tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f3f8;
+    color: var(--c-text);
+}
+
+#tabelPengguna tbody tr:last-child td,
+#tabelSurtug tbody tr:last-child td,
+#tabelPanggol tbody tr:last-child td,
+#tabelJabfung tbody tr:last-child td,
+.tabel-dosten tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#tabelPengguna tbody tr,
+#tabelSurtug tbody tr,
+#tabelPanggol tbody tr,
+#tabelJabfung tbody tr,
+.tabel-dosten tbody tr {
+    transition: background 0.15s;
+}
+
+#tabelPengguna tbody tr:hover td,
+#tabelSurtug tbody tr:hover td,
+#tabelPanggol tbody tr:hover td,
+#tabelJabfung tbody tr:hover td,
+.tabel-dosten tbody tr:hover td {
+    background: #fafbff;
+}
+
+/* ---- USER CELL ---- */
+.du-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.du-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--av-color, #c0392b);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+.du-user-name {
+    font-weight: 600;
+    color: var(--c-text);
+    font-size: 13px;
+    line-height: 1.3;
+}
+.du-user-email {
+    font-size: 12px;
+    color: var(--c-sub);
+    margin-top: 2px;
+}
+
+/* ---- NIP ---- */
+.du-nip {
+    font-family: monospace;
+    font-size: 12.5px;
+    color: var(--c-sub);
+    letter-spacing: 0.3px;
+}
+
+/* ---- ROLE BADGE ---- */
+.du-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 2px;
+    letter-spacing: 0.3px;
+}
+.du-badge-pimpinan {
+    background: #fdf0ef;
+    color: #c0392b;
+    border: 1px solid #f5c6c2;
+}
+.du-badge-dosen {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+.du-badge-tendik {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+.du-badge-operator {
+    background: #f4ecf7;
+    color: #7d3c98;
+    border: 1px solid #d7bde2;
+}
+
+/* ---- JENIS KELAMIN ---- */
+.du-gender {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.du-gender i {
+    font-size: 13px;
+}
+
+.du-gender-laki {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.du-gender-perempuan {
+    background: #fdf0f7;
+    color: #c2185b;
+    border: 1px solid #f8bbd0;
+}
+
+/* ---- AKSI BUTTONS ---- */
+.du-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+.du-act {
+    width: 33px;
+    height: 33px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: all 0.18s;
+}
+.du-act-view {
+    background: #eaf4fb;
+    color: #2471a3;
+    border-color: #aed6f1;
+}
+.du-act-view:hover {
+    background: var(--c-blue);
+    color: #fff;
+    border-color: var(--c-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(41, 128, 185, 0.3);
+}
+.du-act-edit {
+    background: #eafaf1;
+    color: #1e8449;
+    border-color: #a9dfbf;
+}
+.du-act-edit:hover {
+    background: var(--c-green);
+    color: #fff;
+    border-color: var(--c-green);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+}
+
+/* ---- DATATABLE CONTROLS OVERRIDE ---- */
+.dataTables_wrapper .dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--c-sub);
+}
+.dataTables_wrapper .dataTables_filter input {
+    border: 1.5px solid var(--c-border);
+    border-radius: 8px;
+    padding: 7px 13px;
+    font-size: 13px;
+    outline: none;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    font-family: inherit;
+    color: var(--c-text);
+}
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: var(--c-red);
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+}
+.dataTables_wrapper .dataTables_length select {
+    border: 1.5px solid var(--c-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--c-text);
+    outline: none;
+}
+.dataTables_wrapper .dataTables_info {
+    font-size: 12.5px;
+    color: var(--c-sub);
+    padding-top: 14px !important;
+}
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 10px !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: var(--radius-sm) !important;
+    font-size: 13px !important;
+    padding: 4px 10px !important;
+    border: 1.5px solid transparent !important;
+    font-family: inherit !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:not(.disabled):hover {
+    background: var(--c-red-lt) !important;
+    border-color: var(--c-red) !important;
+    color: var(--c-red) !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: var(--c-red) !important;
+    border-color: var(--c-red) !important;
+    color: #fff !important;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .page-content {
+        padding: 16px;
+    }
+    .du-chip {
+        min-width: 100px;
+        padding: 10px 14px;
+    }
+    .du-chip-num {
+        font-size: 16px;
+    }
+    .du-table-wrap {
+        padding: 16px 12px;
+    }
+    .btn-du-tambah {
+        font-size: 12px;
+        padding: 8px 14px;
+    }
+
+    .du-header-left {
+        align-items: flex-start;
+    }
+
+    .header-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 19px;
+    }
+}
+
+.du-dt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+
+.dataTables_length {
+    order: 1;
+}
+
+.dataTables_filter {
+    order: 2;
+    margin-left: auto;
+}
+
+.dataTables_filter input {
+    margin-left: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .du-dt-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dataTables_filter {
+        margin-left: 0;
+    }
+
+    .dataTables_filter input {
+        width: 100%;
+    }
+}
+
+/* Rapikan DataTable top control */
+.du-dt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.dataTables_length label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.dataTables_length select {
+    width: 70px !important;
+    min-width: 70px;
+    margin: 0 4px !important;
+}
+
+.dataTables_filter {
+    margin-left: auto;
+}
+
+.dataTables_filter label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.dataTables_filter input {
+    width: 230px !important;
+}
+
+/* Perkecil kolom nomor */
+#tabelPengguna th:first-child,
+#tabelPengguna td:first-child,
+#tabelSurtug th:first-child,
+#tabelSurtug td:first-child,
+#tabelPanggol th:first-child,
+#tabelPanggol td:first-child,
+#tabelJabfung th:first-child,
+#tabelJabfung td:first-child,
+.tabel-dosten th:first-child,
+.tabel-dosten td:first-child {
+    width: 55px !important;
+    min-width: 55px !important;
+    max-width: 55px !important;
+    text-align: center;
+}
+
+.du-actions form {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+}
+
+.du-act-delete {
+    background: #fdf2f2;
+    color: #c0392b;
+    border-color: #f5c6c2;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+}
+
+.du-act-delete:hover {
+    background: var(--c-red);
+    color: #fff;
+    border-color: var(--c-red);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.3);
+}
+
+.du-act-delete:focus {
+    outline: none;
+}
+
+/* ==============================
+   MODAL DETAIL PEGAWAI
+============================== */
+
+.detail-modal-content {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+.detail-modal-header {
+    background: var(--c-red);
+    color: #fff;
+    border-bottom: none;
+    padding: 18px 22px;
+}
+
+.detail-modal-header small {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 12px;
+}
+
+.detail-modal-body {
+    padding: 24px;
+    background: #fff;
+}
+
+.detail-profile-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--c-border);
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.detail-photo-wrap {
+    width: 86px;
+    height: 106px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid var(--c-border);
+    background: #eef2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.detail-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.detail-photo-fallback {
+    width: 100%;
+    height: 100%;
+    font-size: 38px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-name {
+    font-weight: 800;
+    color: var(--c-text);
+}
+
+.detail-email {
+    color: var(--c-sub);
+    font-size: 13px;
+}
+
+.detail-role-badge {
+    display: inline-flex;
+    padding: 5px 12px;
+    border-radius: 99px;
+    background: #fdf0ef;
+    color: var(--c-red);
+    border: 1px solid #f5c6c2;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.detail-item {
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: #fff;
+}
+
+.detail-item span {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--c-sub);
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.detail-item strong {
+    font-size: 13.5px;
+    color: var(--c-text);
+    font-weight: 700;
+    word-break: break-word;
+}
+
+.detail-btn-close {
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-profile-box {
+        align-items: flex-start;
+    }
+}
+
+/* ==============================
+   OPERATOR SURAT TUGAS
+============================== */
+
+.surtug-title {
+    font-weight: 700;
+    color: var(--c-text);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.surtug-meta {
+    font-size: 12px;
+    color: var(--c-sub);
+    margin-top: 3px;
+}
+
+.surtug-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.surtug-status-menunggu {
+    background: #fff8e6;
+    color: #b7791f;
+    border: 1px solid #f6d98b;
+}
+
+.surtug-status-divalidasi {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.surtug-status-ditolak {
+    background: #fdf2f2;
+    color: #c0392b;
+    border: 1px solid #f5c6c2;
+}
+
+.du-act-file {
+    background: #fff8e6;
+    color: #b7791f;
+    border-color: #f6d98b;
+}
+
+.du-act-file:hover {
+    background: #d97706;
+    color: #fff;
+    border-color: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.3);
+}
+
+.du-act-approve {
+    background: #eafaf1;
+    color: #1e8449;
+    border-color: #a9dfbf;
+}
+
+.du-act-approve:hover {
+    background: #27ae60;
+    color: #fff;
+    border-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(39, 174, 96, 0.3);
+}
+
+.du-act-reject {
+    background: #fdf2f2;
+    color: #c0392b;
+    border-color: #f5c6c2;
+}
+
+.du-act-reject:hover {
+    background: #c0392b;
+    color: #fff;
+    border-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(192, 57, 43, 0.3);
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.tabel-pimpinan {
+    font-size: 13.5px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabel-pimpinan thead th {
+    background: #f8fafc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--c-sub);
+    padding: 13px 16px;
+    border-bottom: 2px solid var(--c-border) !important;
+    border-top: none !important;
+    white-space: nowrap;
+}
+
+.tabel-pimpinan tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f3f8;
+    color: var(--c-text);
+}
+
+.tabel-pimpinan tbody tr:hover td {
+    background: #fafbff;
+}
+
+.tabel-pimpinan th:first-child,
+.tabel-pimpinan td:first-child {
+    width: 55px !important;
+    min-width: 55px !important;
+    max-width: 55px !important;
+    text-align: center;
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.du-act-disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.surtug-status-diproses {
+    background: #eaf4fb;
+    color: #2471a3;
+    border: 1px solid #aed6f1;
+}
+
+.surtug-status-diterima {
+    background: #eafaf1;
+    color: #1e8449;
+    border: 1px solid #a9dfbf;
+}
+
+.detail-surtug-icon {
+    color: var(--c-red);
+    font-size: 38px;
+}

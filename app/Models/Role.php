@@ -26,6 +26,6 @@ class Role extends Model
             'role_pegawai',
             'role_id_role',
             'pegawai_id_pegawai'
-        );
+        )->withTimestamps();
     }
 }

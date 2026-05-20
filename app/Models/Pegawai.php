@@ -25,20 +25,14 @@ class Pegawai extends Model
         'no_hp_darurat',
         'homebase',
         'email',
+        'pangkat_golongan',
+        'jabatan_fungsional',
+        'foto',
     ];
 
     public function user()
     {
         return $this->hasOne(User::class, 'pegawai_id_pegawai', 'id_pegawai');
-    }
-
-    public function pengajuan()
-    {
-        return $this->hasMany(
-            Pengajuan::class,
-            'pegawai_id_pegawai',
-            'id_pegawai'
-        );
     }
 
     public function roles()
@@ -48,6 +42,15 @@ class Pegawai extends Model
             'role_pegawai',
             'pegawai_id_pegawai',
             'role_id_role'
+        )->withTimestamps();
+    }
+
+    public function pengajuan()
+    {
+        return $this->hasMany(
+            Pengajuan::class,
+            'pegawai_id_pegawai',
+            'id_pegawai'
         );
     }
 }
