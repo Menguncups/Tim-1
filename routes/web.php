@@ -10,7 +10,6 @@ Route::get('/', function () {
 });
 
 
-
 /*
 |--------------------------------------------------------------------------
 | OPERATOR
@@ -44,21 +43,22 @@ Route::prefix('operator')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('datadiri')->group(function () {
-   
+Route::prefix('datadiri')->name('datadiri.')->group(function () {   
     /*
     |--------------------------------------------------------------------------
     | DATA DIRI
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/{kategori}/read', [PegawaiController::class, 'showRead'])->name('pegawai.read');
-    
-    // URL Tampilan Form Ubah Kontak (Contoh: /biodata/dosen/update)
-    Route::get('/{kategori}/update', [PegawaiController::class, 'showEdit'])->name('pegawai.edit');
-    
-    // URL Eksekusi simpan data via AJAX POST dari form HTML kamu
-    Route::post('/{kategori}/update', [PegawaiController::class, 'processUpdate'])->name('pegawai.update');
+    /* Modul Dosen */
+    Route::get('/dosen', [PegawaiController::class, 'readDosen'])->name('dosen.read');
+    Route::get('/dosen/edit', [PegawaiController::class, 'editDosen'])->name('dosen.edit');
+    Route::put('/dosen/update', [PegawaiController::class, 'updateDosen'])->name('dosen.update');
+
+    /* Modul Tendik */
+    Route::get('/tendik', [PegawaiController::class, 'readTendik'])->name('tendik.read');
+    Route::get('/tendik/edit', [PegawaiController::class, 'editTendik'])->name('tendik.edit');
+    Route::put('/tendik/update', [PegawaiController::class, 'updateTendik'])->name('tendik.update');
 
 
 
