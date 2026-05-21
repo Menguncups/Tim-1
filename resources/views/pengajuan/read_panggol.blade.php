@@ -7,13 +7,9 @@
     <title>Pangkat Golongan — FT UNRI</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
-
     <link rel="stylesheet" href="{{ asset('css/ReadJabPang.css') }}">
 </head>
 
@@ -27,7 +23,7 @@
 
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-            <img src="{{ asset('icon/unriteknik.png') }}" alt="Fakultas Teknik UNRI">
+                <img src="{{ asset('icon/unriteknik.png') }}" alt="Fakultas Teknik UNRI">
             </div>
 
             <nav class="sidebar-nav">
@@ -106,17 +102,18 @@
                                 NIP: {{ $pegawai->nip }}
                             </div>
                             <span class="hero-tag">
-                            <i class="bi bi-building"></i>
-                            {{ $pegawai->homebase }}
+                                <i class="bi bi-building"></i>
+                                {{ $pegawai->homebase }}
                             </span>
                             <span class="hero-tag">
-                            <i class="bi bi-upc"></i>
-                            NIDN:
-                            {{ $pegawai->nidn }}
+                                <i class="bi bi-upc"></i>
+                                NIDN: {{ $pegawai->nidn }}
                             </span>
-                            <a href="#" class="btn-hero-edit btn-disabled">
-                                <i class="bi bi-lock-fill"></i> Pengajuan Belum Selesai
-                            </a>
+                            @if($pengajuanAktif)
+                                <a href="#" class="btn-hero-edit btn-disabled">
+                                    <i class="bi bi-lock-fill"></i> Pengajuan Belum Selesai
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -147,13 +144,13 @@
                             </a>
                         @else
                             <button class="btn btn-secondary btn-sm" disabled style="padding: 6px 14px; font-weight: 500; border-radius: 6px;">
-                                Pengajuan Masih Berjalan
+                                <button class="btn btn-secondary btn-sm" disabled style="padding: 6px 14px; font-weight: 500; border-radius: 6px;">
+                                    Pengajuan Masih Berjalan
+                                </button>
                             </button>
                         @endif
                     </div>
 
-                    
-                    
                     <div class="table-wrapper">
                         <table id="panggolTable" class="custom-table table align-middle">
                             <thead>
@@ -161,43 +158,49 @@
                                     <th>No</th>
                                     <th>Pangkat / Golongan</th>
                                     <th>Tanggal Pengajuan</th>
-                                    <th>Berkas</th>
+                                    <th>Berkas Dokumen</th>
                                     <th>Status</th>
                                     <th class="aksi-col">Aksi</th>
                                 </tr>
+                            </thead>
                             <tbody>
                                 @foreach($data as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                   <td>
-                                    {{ $item->pangkat }} - {{ $item->golongan }}
-                                    </td>
+                                    <td>{{ $item->pangkat }} - {{ $item->golongan }}</td>
                                     <td>
                                         {{ $item->tmt ? \Carbon\Carbon::parse($item->tmt)->translatedFormat('d F Y') : '-' }}
                                     </td>
                                     <td>
-                                        @php
-                                            $files = [
-                                                $item->dokumen_sk_cpns ?? null,
-                                                $item->dokumen_sk_pns ?? null,
-                                                $item->dokumen_pak ?? null,
-                                                $item->dokumen_publikasi_ilmiah ?? null,
-                                            ];
-                                        @endphp
+                                        <div class="d-flex flex-column gap-1">
+                                            @if($item->dokumen_sk_cpns)
+                                                <a href="{{ Storage::url(str_replace('public/', '', $item->dokumen_sk_cpns)) }}" target="_blank" style="font-size: 13px; text-decoration: none;">
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i> SK CPNS
+                                                </a>
+                                            @endif
 
-                                        @if(collect($files)->filter()->count() > 0)
-                                            <div class="d-flex flex-wrap gap-2">
-                                                @foreach($files as $file)
-                                                    @if($file)
-                                                        <a href="{{ asset('storage/' . $file) }}" target="_blank" style="font-size: 13px;">
-                                                            Lihat Berkas
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            -
-                                        @endif
+                                            @if($item->dokumen_sk_pns)
+                                                <a href="{{ Storage::url(str_replace('public/', '', $item->dokumen_sk_pns)) }}" target="_blank" style="font-size: 13px; text-decoration: none;">
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i> SK PNS
+                                                </a>
+                                            @endif
+
+                                            @if($item->dokumen_pak)
+                                                <a href="{{ Storage::url(str_replace('public/', '', $item->dokumen_pak)) }}" target="_blank" style="font-size: 13px; text-decoration: none;">
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i> Berkas PAK
+                                                </a>
+                                            @endif
+
+                                            @if($item->dokumen_publikasi_ilmiah)
+                                                <a href="{{ Storage::url(str_replace('public/', '', $item->dokumen_publikasi_ilmiah)) }}" target="_blank" style="font-size: 13px; text-decoration: none;">
+                                                    <i class="bi bi-file-earmark-pdf text-danger"></i> Publikasi Ilmiah
+                                                </a>
+                                            @endif
+
+                                            @if(!$item->dokumen_sk_cpns && !$item->dokumen_sk_pns && !$item->dokumen_pak && !$item->dokumen_publikasi_ilmiah)
+                                                <span class="text-muted">-</span>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td>
                                         @if($item->pengajuan?->status == 'menunggu')
@@ -219,44 +222,24 @@
                                         @endif
                                     </td>
                                     <td>
-    <div class="aksi-group">
+                                        <div class="aksi-group">
+                                            @if($item->pengajuan && $item->pengajuan->status == 'menunggu')
+                                                <a href="/dosen/pengajuan/panggol/edit/{{ $item->id_pengajuan }}" class="btn-action" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
 
-        @if(
-            $item->pengajuan &&
-            $item->pengajuan->status=='menunggu'
-        )
-
-            <a href="/dosen/pengajuan/panggol/edit/{{ $item->id_pengajuan }}"
-               class="btn-action"
-               title="Edit">
-
-                <i class="bi bi-pencil-square"></i>
-            </a>
-
-            <form action="/dosen/pengajuan/panggol/{{ $item->id_pengajuan }}"
-                  method="POST"
-                  style="display:inline;">
-
-                @csrf
-                @method('DELETE')
-
-                <button type="submit"
-                        class="btn-action text-danger"
-                        title="Hapus"
-                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-
-                    <i class="bi bi-trash"></i>
-
-                </button>
-
-            </form>
-
-        @else
-            -
-        @endif
-
-    </div>
-</td>
+                                                <form action="/dosen/pengajuan/panggol/{{ $item->id_pengajuan }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-action text-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -269,8 +252,8 @@
             <footer class="site-footer">
                 <div class="footer-left">
                     <div class="footer-logo-wrap">
-                    <img src="{{ asset('icon/unriteknik.png') }}" alt="UNRI" onerror="this.style.display='none'">
-                </div>
+                        <img src="{{ asset('icon/unriteknik.png') }}" alt="UNRI" onerror="this.style.display='none'">
+                    </div>
                     <p class="footer-address mb-0">
                         Fakultas Teknik, Kampus Binawidya<br>
                         JL. HR Soebrantas KM.12.5, Simpang Baru, Panam
@@ -284,10 +267,8 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-    
     <script src="{{ asset('js/Read_JabFung.js') }}"></script>
 
 </body>
