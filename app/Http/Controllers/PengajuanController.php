@@ -365,24 +365,138 @@ if($cek){
     */
 
     public function readJabfung()
-{
-    $pegawaiId='PG002'; // sementara dummy
+    {
+        $pegawaiId='PG002'; 
 
-    $pegawai = Pegawai::where(
-        'id_pegawai',
-        $pegawaiId
-    )->first();
-
-    $data = JabatanFungsional::with('pengajuan')
-    ->whereHas('pengajuan', function($q) use ($pegawaiId){
-        $q->where(
-            'pegawai_id_pegawai',
+        $pegawai = Pegawai::where(
+            'id_pegawai',
             $pegawaiId
-        );
-    })
-    ->get();
+        )->first();
 
-    $pengajuanAktif = Pengajuan::where(
+        $data = JabatanFungsional::with('pengajuan')
+        ->whereHas('pengajuan', function($q) use ($pegawaiId){
+            $q->where(
+                'pegawai_id_pegawai',
+                $pegawaiId
+            );
+        })
+        ->get();
+
+        $pengajuanAktif = Pengajuan::where(
+                'pegawai_id_pegawai',
+                $pegawaiId
+            )
+            ->whereIn(
+                'status',
+                ['menunggu','diproses']
+            )
+            ->exists();
+
+        return view(
+            'pengajuan.read_jabfung',
+            compact(
+                'data',
+                'pegawai',
+                'pengajuanAktif'
+            )
+        );
+    }
+
+    public function editJabatanFungsional($id){
+        $data = JabatanFungsional::with('pengajuan')->findOrFail($id);
+
+        if (!$data->pengajuan || ($data->pengajuan->status != 'menunggu' && $data->pengajuan->status != 'ditolak')) {
+            return redirect('/dosen/pengajuan/jabfung')->with(
+                'error',
+                'Pengajuan sudah diproses/disetujui, berkas tidak dapat diubah lagi!'
+            );
+        }
+
+        return view('pengajuan.edit_jabatan_fungsional', compact('data'));
+    }
+
+    public function updateJabatanFungsional(Request $request, $id)
+    {
+        // Validasi ekstensi file dokumen (wajib PDF, maks 5MB)
+        $validator = Validator::make($request->all(), [
+            'dokumen_sk_cpns'          => 'nullable|mimes:pdf|max:5120',
+            'dokumen_sk_pns'           => 'nullable|mimes:pdf|max:5120',
+            'dokumen_pak'              => 'nullable|mimes:pdf|max:5120',
+            'dokumen_publikasi_ilmiah' => 'nullable|mimes:pdf|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal Validasi Berkas: ' . implode(', ', $validator->errors()->all())
+            ], 422);
+        }
+
+        try {
+            $jabfung = JabatanFungsional::with('pengajuan')->findOrFail($id);
+
+            if (!$jabfung->pengajuan || ($jabfung->pengajuan->status != 'menunggu' && $jabfung->pengajuan->status != 'ditolak')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Berkas gagal diperbarui karena status pengajuan sudah diproses!'
+                ], 422);
+            }
+
+            $fileFields = ['dokumen_sk_cpns', 'dokumen_sk_pns', 'dokumen_pak', 'dokumen_publikasi_ilmiah'];
+            $adaFileDiubah = false;
+
+            foreach ($fileFields as $field) {
+
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);                   
+                    $filename = time() . '_' . $field . '_' . $jabfung->id_pengajuan . '.' . $file->getClientOriginalExtension();
+                    
+                    $jabfung->$field = $file->storeAs('public/dokumen_jabfung', $filename);
+                    $adaFileDiubah = true;
+                }
+            }
+
+            if (!$adaFileDiubah) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak ada berkas dokumen baru yang diunggah. Perubahan dibatalkan!'
+                ], 422);
+            }
+
+            $jabfung->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berkas dokumen jabatan fungsional berhasil diperbarui!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui berkas ke database: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function readPanggol()
+    {
+        $pegawaiId='PG002';
+
+        $pegawai = Pegawai::where(
+            'id_pegawai',
+            $pegawaiId
+        )->first();
+
+        $data = PangkatGolongan::with('pengajuan')
+            ->whereHas('pengajuan', function($q) use($pegawaiId){
+                $q->where(
+                    'pegawai_id_pegawai',
+                    $pegawaiId
+                );
+            })
+            ->get();
+
+        $pengajuanAktif = Pengajuan::where(
             'pegawai_id_pegawai',
             $pegawaiId
         )
@@ -392,100 +506,37 @@ if($cek){
         )
         ->exists();
 
-    return view(
-        'pengajuan.read_jabfung',
-        compact(
-            'data',
-            'pegawai',
-            'pengajuanAktif'
-        )
-    );
-}
-
-public function editJabatanFungsional($id)
-{
-    $data = JabatanFungsional::with(
-        'pengajuan'
-    )->findOrFail($id);
-
-    if(
-       !$data->pengajuan ||
-       $data->pengajuan->status!='menunggu'
-    ){
-
-        return redirect(
-            '/dosen/pengajuan/jabfung'
-        )->with(
-            'error',
-            'Pengajuan tidak dapat diubah'
+        return view(
+            'pengajuan.read_panggol',
+            compact(
+                'pegawai',
+                'data',
+                'pengajuanAktif'
+            )
         );
     }
 
-    return view(
-        'pengajuan.create_jabatan_fungsional',
-        compact('data')
-    );
-}
+    public function destroyPanggol($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
 
-public function readPanggol()
-{
-    $pegawaiId='PG002';
-
-    $pegawai = Pegawai::where(
-        'id_pegawai',
-        $pegawaiId
-    )->first();
-
-    $data = PangkatGolongan::with('pengajuan')
-        ->whereHas('pengajuan', function($q) use($pegawaiId){
-            $q->where(
-                'pegawai_id_pegawai',
-                $pegawaiId
+        if($pengajuan->status!='menunggu'){
+            return back()->with(
+                'error',
+                'Pengajuan tidak dapat dihapus'
             );
-        })
-        ->get();
+        }
 
-    $pengajuanAktif = Pengajuan::where(
-        'pegawai_id_pegawai',
-        $pegawaiId
-    )
-    ->whereIn(
-        'status',
-        ['menunggu','diproses']
-    )
-    ->exists();
+        PangkatGolongan::where(
+            'id_pengajuan',
+            $id
+        )->delete();
 
-    return view(
-        'pengajuan.read_panggol',
-        compact(
-            'pegawai',
-            'data',
-            'pengajuanAktif'
-        )
-    );
-}
+        $pengajuan->delete();
 
-public function destroyPanggol($id)
-{
-    $pengajuan = Pengajuan::findOrFail($id);
-
-    if($pengajuan->status!='menunggu'){
         return back()->with(
-            'error',
-            'Pengajuan tidak dapat dihapus'
+            'success',
+            'Data berhasil dihapus'
         );
     }
-
-    PangkatGolongan::where(
-        'id_pengajuan',
-        $id
-    )->delete();
-
-    $pengajuan->delete();
-
-    return back()->with(
-        'success',
-        'Data berhasil dihapus'
-    );
-}
 }

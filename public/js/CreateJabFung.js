@@ -23,9 +23,7 @@ const tingkatanPangkat = {
     "IV/a": 5, "IV/b": 6, "IV/c": 7, "IV/d": 8, "IV/e": 9
 };
 
-/**
- * Ekstraktor Regex Pintar (Mendukung III/c dan IV/a)
- */
+
 function ekstrakGolonganSistem(teks) {
     if (!teks) return "";
     const cocokan = teks.match(/(III|IV)\/[a-eA-E]/i);
@@ -45,7 +43,6 @@ function ekstrakGolonganSistem(teks) {
     return "";
 }
 
-// --- VALIDASI REAL-TIME INDIVIDU FILE ---
 function validasiFormatDanUkuranFileJabfung(elementId, errorId) {
     const fileInput = document.getElementById(elementId);
     const errorTarget = document.getElementById(errorId);
@@ -172,9 +169,7 @@ function konfirmasiSimpanJabfung() {
         }
     }
 
-    // ====================================================================
-    // TAMBAHAN: POP-UP KONFIRMASI SEBELUM MENYIMPAN JABATAN
-    // ====================================================================
+    // Pop-up Konfirmasi
     Swal.fire({
         title: 'Konfirmasi Simpan',
         text: 'Apakah Anda yakin data riwayat jabatan fungsional yang dimasukkan sudah benar dan siap diajukan?',
@@ -188,7 +183,6 @@ function konfirmasiSimpanJabfung() {
     }).then((result) => {
         if (result.isConfirmed) {
             
-            // Tampilkan animasi loading memproses upload
             Swal.fire({ 
                 title: 'Memproses Data...', 
                 text: 'Mohon tunggu, berkas pengajuan sedang diunggah ke server.',
@@ -200,7 +194,8 @@ function konfirmasiSimpanJabfung() {
             const formData = new FormData(formHtml);
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-            fetch('/pengajuan/jabfung/store', {
+            // PERBAIKAN UTAMA: Menggunakan rute absolut /dosen/... agar tidak berlipat ganda
+            fetch('/dosen/pengajuan/jabfung/store', {
                 method: 'POST',
                 body: formData,
                 headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': csrfToken }
@@ -214,7 +209,8 @@ function konfirmasiSimpanJabfung() {
                         text: data.message,
                         confirmButtonColor: '#198754'
                     }).then(() => { 
-                        window.location.href = "/pengajuan/jabfung"; 
+                        // PERBAIKAN KEDUA: Dialihkan kembali ke rute indeks dosen yang benar
+                        window.location.href = "/dosen/pengajuan/jabfung"; 
                     });
                 } else {
                     Swal.fire({ 
@@ -249,7 +245,7 @@ function konfirmasiBatalJabfung() {
         cancelButtonText: 'Kembali'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "/pengajuan/jabfung";
+            window.location.href = "/dosen/pengajuan/jabfung";
         }
     });
 }
@@ -306,12 +302,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Eksekusi fungsi proteksi dropdown
     proteksiDropdownJabfung();
 
-    // ====================================================================
-    // TAMBAHAN: Klik di mana saja pada kolom TMT langsung buka kalender otomatis
-    // ====================================================================
     const inputTmt = document.getElementById("tmt");
     if (inputTmt) {
         inputTmt.addEventListener("click", function () {
@@ -323,9 +315,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ====================================================================
-    // PERBAIKAN INTERSEP TOMBOL: Menggunakan Event Listener berbasis Klik
-    // ====================================================================
     const submitBtn = document.getElementById("submit");
     if (submitBtn) {
         submitBtn.addEventListener("click", function (e) {

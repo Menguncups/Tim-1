@@ -53,7 +53,7 @@
                     <i class="bi bi-pencil-square me-2"></i>Form Input Jabatan Fungsional Baru
                 </div>
                 
-                <form id="formJabfung" class="form-body" enctype="multipart/form-data">
+                <form id="formJabfung" class="form-body" action="/dosen/pengajuan/jabfung/store" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="pegawai_id_pegawai" value="{{ $pegawai->id_pegawai ?? '10' }}">
 
@@ -190,6 +190,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="{{ asset('js/CreateJabFung.js') }}"></script>
+<script src="{{ asset('js/CreateJabFung.js?v=2.0_final') }}"></script>
 </body>
 </html>
