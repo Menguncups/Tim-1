@@ -7,13 +7,9 @@
     <title>Jabatan Fungsional — FT UNRI</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
-
     <link rel="stylesheet" href="{{ asset('css/ReadJabPang.css') }}">
 </head>
 
@@ -27,7 +23,7 @@
 
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-            <img src="{{ asset('icon/unriteknik.png') }}" alt="Fakultas Teknik UNRI">
+                <img src="{{ asset('icon/unriteknik.png') }}" alt="Fakultas Teknik UNRI">
             </div>
 
             <nav class="sidebar-nav">
@@ -106,17 +102,18 @@
                                 NIP: {{ $pegawai->nip }}
                             </div>
                             <span class="hero-tag">
-                            <i class="bi bi-building"></i>
-                            {{ $pegawai->homebase }}
+                                <i class="bi bi-building"></i>
+                                {{ $pegawai->homebase }}
                             </span>
                             <span class="hero-tag">
-                            <i class="bi bi-upc"></i>
-                            NIDN:
-                            {{ $pegawai->nidn }}
+                                <i class="bi bi-upc"></i>
+                                NIDN: {{ $pegawai->nidn }}
                             </span>
-                            <a href="#" class="btn-hero-edit btn-disabled">
-                                <i class="bi bi-lock-fill"></i> Pengajuan Belum Selesai
-                            </a>
+                            @if($pengajuanAktif)
+                                <a href="#" class="btn-hero-edit btn-disabled">
+                                    <i class="bi bi-lock-fill"></i> Pengajuan Belum Selesai
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -152,8 +149,6 @@
                         @endif
                     </div>
 
-                    
-                    
                     <div class="table-wrapper">
                         <table id="jabfungTable" class="custom-table table align-middle">
                             <thead>
@@ -165,6 +160,7 @@
                                     <th>Status</th>
                                     <th class="aksi-col">Aksi</th>
                                 </tr>
+                            </thead>
                             <tbody>
                                 @foreach($data as $index => $item)
                                 <tr>
@@ -176,19 +172,20 @@
                                     <td>
                                         @php
                                             $files = [
-                                                $item->dokumen_sk_cpns ?? null,
-                                                $item->dokumen_sk_pns ?? null,
-                                                $item->dokumen_pak ?? null,
-                                                $item->dokumen_publikasi_ilmiah ?? null,
+                                                'SK CPNS' => $item->dokumen_sk_cpns ?? null,
+                                                'SK PNS' => $item->dokumen_sk_pns ?? null,
+                                                'Berkas PAK' => $item->dokumen_pak ?? null,
+                                                'Publikasi Ilmiah' => $item->dokumen_publikasi_ilmiah ?? null,
                                             ];
                                         @endphp
 
                                         @if(collect($files)->filter()->count() > 0)
-                                            <div class="d-flex flex-wrap gap-2">
-                                                @foreach($files as $file)
+                                            <div class="d-flex flex-column gap-1">
+                                                @foreach($files as $label => $file)
                                                     @if($file)
-                                                        <a href="{{ asset('storage/' . $file) }}" target="_blank" style="font-size: 13px;">
-                                                            Lihat Berkas
+                                                        {{-- PERBAIKAN: Link berkas dibungkus Storage::url() agar jalur URL /storage/ valid --}}
+                                                        <a href="{{ Storage::url(str_replace('public/', '', $file)) }}" target="_blank" style="font-size: 13px; text-decoration: none;">
+                                                            <i class="bi bi-file-earmark-pdf text-danger"></i> {{ $label }}
                                                         </a>
                                                     @endif
                                                 @endforeach
@@ -218,10 +215,7 @@
                                     </td>
                                     <td>
                                         <div class="aksi-group">
-                                            @if(
-                                                $item->pengajuan &&
-                                                $item->pengajuan->status=='menunggu'
-                                                )
+                                            @if($item->pengajuan && $item->pengajuan->status=='menunggu')
                                                 <a href="/dosen/pengajuan/jabfung/edit/{{ $item->id_pengajuan }}" class="btn-action" title="Edit">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
@@ -249,8 +243,8 @@
             <footer class="site-footer">
                 <div class="footer-left">
                     <div class="footer-logo-wrap">
-                    <img src="{{ asset('icon/unriteknik.png') }}" alt="UNRI" onerror="this.style.display='none'">
-                </div>
+                        <img src="{{ asset('icon/unriteknik.png') }}" alt="UNRI" onerror="this.style.display='none'">
+                    </div>
                     <p class="footer-address mb-0">
                         Fakultas Teknik, Kampus Binawidya<br>
                         JL. HR Soebrantas KM.12.5, Simpang Baru, Panam
@@ -264,10 +258,8 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-    
     <script src="{{ asset('js/Read_JabFung.js') }}"></script>
 
 </body>
