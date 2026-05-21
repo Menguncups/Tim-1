@@ -539,4 +539,85 @@ if($cek){
             'Data berhasil dihapus'
         );
     }
+
+    public function editPangkatGolongan($id)
+    {
+        // Ambil data PangkatGolongan beserta relasi pengajuannya
+        $panggol = PangkatGolongan::with('pengajuan')->findOrFail($id);
+
+        if (!$panggol->pengajuan || ($panggol->pengajuan->status != 'menunggu' && $panggol->pengajuan->status != 'ditolak')) {
+            return redirect('/dosen/pengajuan/panggol')->with(
+                'error',
+                'Pengajuan sudah diproses/disetujui, berkas tidak dapat diubah lagi!'
+            );
+        }
+
+        $panggol->pangkat_baru = $panggol->pangkat . ' - ' . $panggol->golongan;
+
+        return view('pengajuan.edit_pangkat_golongan', ['data' => $panggol]);
+    }
+
+    public function updatePangkatGolongan(Request $request, $id)
+    {
+        // Validasi file berkas wajib format PDF dan maksimal berukuran 5MB
+        $validator = Validator::make($request->all(), [
+            'dokumen_sk_cpns'          => 'nullable|mimes:pdf|max:5120',
+            'dokumen_sk_pns'           => 'nullable|mimes:pdf|max:5120',
+            'dokumen_pak'              => 'nullable|mimes:pdf|max:5120',
+            'dokumen_publikasi_ilmiah' => 'nullable|mimes:pdf|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal Validasi Berkas: ' . implode(', ', $validator->errors()->all())
+            ], 422);
+        }
+
+        try {
+            $panggol = PangkatGolongan::with('pengajuan')->findOrFail($id);
+
+            // Cek kembali status pengajuan di database sebelum disimpan
+            if (!$panggol->pengajuan || ($panggol->pengajuan->status != 'menunggu' && $panggol->pengajuan->status != 'ditolak')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Berkas gagal diperbarui karena status pengajuan sudah diproses!'
+                ], 422);
+            }
+
+            $fileFields = ['dokumen_sk_cpns', 'dokumen_sk_pns', 'dokumen_pak', 'dokumen_publikasi_ilmiah'];
+            $adaFileDiubah = false;
+
+            // Looping pengecekan unggahan berkas baru
+            foreach ($fileFields as $field) {
+                if ($request->hasFile($field)) {
+                    $file = $request->file($field);                   
+                    $filename = time() . '_' . $field . '_' . $panggol->id_pengajuan . '.' . $file->getClientOriginalExtension();
+
+                    $panggol->$field = $file->storeAs('public/dokumen_pangkat', $filename);
+                    $adaFileDiubah = true;
+                }
+            }
+
+            if (!$adaFileDiubah) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak ada berkas dokumen baru yang diunggah. Perubahan dibatalkan!'
+                ], 422);
+            }
+
+            $panggol->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berkas dokumen pangkat golongan berhasil diperbarui!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui berkas ke database: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }
