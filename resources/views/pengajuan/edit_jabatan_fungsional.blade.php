@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <h4 class="page-title mb-0">Edit Jabatan Fungsional</h4>
-                        <p class="page-sub mb-0">Lengkapi berkas perubahan data riwayat jabatan fungsional dosen</p>
+                        <p class="page-sub mb-0">Lengkapi berkas perubahan</p>
                     </div>
                 </div>
             </div>
