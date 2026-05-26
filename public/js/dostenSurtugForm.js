@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const perihal = document.getElementById("perihal");
     const berkasPendukung = document.getElementById("berkas_pendukung");
 
+    const mode = form?.dataset.mode || "create";
+    const isEdit = mode === "edit";
+
     function setError(input, errorId, message) {
         const error = document.getElementById(errorId);
 
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setError(
                     this,
                     "error_nama_pengusul",
-                    "Nama tidak boleh mengandung angka.",
+                    "Nama tidak boleh mengandung angka."
                 );
             } else {
                 setError(this, "error_nama_pengusul", "");
@@ -93,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (berkasPendukung) {
         berkasPendukung.addEventListener("change", function () {
-            validateFile(false);
+            validateFile(!isEdit);
         });
     }
 
@@ -106,17 +109,17 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function validateFile(showRequired = true) {
+    function validateFile(required = true) {
         if (!berkasPendukung) return true;
 
         const file = berkasPendukung.files[0];
 
         if (!file) {
-            if (showRequired) {
+            if (required) {
                 setError(
                     berkasPendukung,
                     "error_berkas_pendukung",
-                    "Berkas pendukung wajib diunggah.",
+                    "Berkas pendukung wajib diunggah."
                 );
                 return false;
             }
@@ -131,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setError(
                 berkasPendukung,
                 "error_berkas_pendukung",
-                "Format file harus PDF, JPG, atau PNG.",
+                "Format file harus PDF, JPG, atau PNG."
             );
             return false;
         }
@@ -140,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setError(
                 berkasPendukung,
                 "error_berkas_pendukung",
-                "Ukuran file maksimal 2 MB.",
+                "Ukuran file maksimal 2 MB."
             );
             return false;
         }
@@ -156,14 +159,14 @@ document.addEventListener("DOMContentLoaded", function () {
             setError(
                 namaPengusul,
                 "error_nama_pengusul",
-                "Nama pengusul wajib diisi.",
+                "Nama pengusul wajib diisi."
             );
             valid = false;
         } else if (/[0-9]/.test(namaPengusul.value)) {
             setError(
                 namaPengusul,
                 "error_nama_pengusul",
-                "Nama tidak boleh mengandung angka.",
+                "Nama tidak boleh mengandung angka."
             );
             valid = false;
         } else {
@@ -174,24 +177,18 @@ document.addEventListener("DOMContentLoaded", function () {
             setError(
                 waktuPelaksana,
                 "error_waktu_pelaksana",
-                "Waktu pelaksanaan wajib diisi.",
+                "Waktu pelaksanaan wajib diisi."
             );
             valid = false;
         } else {
             setError(waktuPelaksana, "error_waktu_pelaksana", "");
         }
-        console.log("lama value:", lamaPelaksanaan);
-        console.log("lama value str:", lamaPelaksanaan?.value);
-        console.log("lama parsed:", parseInt(lamaPelaksanaan?.value));
-        if (
-            !lamaPelaksanaan ||
-            lamaPelaksanaan.value === "" ||
-            parseInt(lamaPelaksanaan.value) < 1
-        ) {
+
+        if (!lamaPelaksanaan || !lamaPelaksanaan.value.trim()) {
             setError(
                 lamaPelaksanaan,
                 "error_lama_pelaksanaan",
-                "Lama pelaksanaan wajib diisi.",
+                "Lama pelaksanaan wajib diisi."
             );
             valid = false;
         } else {
@@ -205,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setError(perihal, "error_perihal", "");
         }
 
-        if (!validateFile(true)) {
+        if (!validateFile(!isEdit)) {
             valid = false;
         }
 
@@ -232,10 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             Swal.fire({
                 icon: "question",
-                title: "Kirim Pengajuan?",
-                text: "Pastikan data pengajuan surat tugas sudah benar.",
+                title: isEdit ? "Update Pengajuan?" : "Kirim Pengajuan?",
+                text: isEdit
+                    ? "Pastikan data pengajuan surat tugas sudah benar sebelum diperbarui."
+                    : "Pastikan data pengajuan surat tugas sudah benar.",
                 showCancelButton: true,
-                confirmButtonText: "Ya, Kirim",
+                confirmButtonText: isEdit ? "Ya, Update" : "Ya, Kirim",
                 cancelButtonText: "Batal",
                 confirmButtonColor: "#b52a20",
                 cancelButtonColor: "#6c757d",

@@ -1,7 +1,12 @@
 $(document).ready(function () {
-    const tableElement = $(".tabel-dosten");
+    const tableElement = $(".tabel-dosten").first();
 
     if (!tableElement.length) return;
+
+    // Cegah DataTable diinisialisasi dua kali
+    if ($.fn.DataTable.isDataTable(tableElement)) {
+        return;
+    }
 
     const statusColumn = Number(tableElement.data("status-column"));
 
@@ -48,9 +53,13 @@ $(document).ready(function () {
             ditolak: "Ditolak",
         };
 
-        table.column(statusColumn).search(labelMap[status] || "").draw();
+        table
+            .column(statusColumn)
+            .search(labelMap[status] || "")
+            .draw();
     });
 
+    // DETAIL SURAT TUGAS
     $(document).on("click", ".btn-detail-surtug", function () {
         const button = $(this);
 
@@ -64,6 +73,7 @@ $(document).ready(function () {
         $("#detailPerihal").text(button.data("perihal") || "-");
         $("#detailTanggal").text(button.data("tanggal") || "-");
         $("#detailStatus").text(button.data("status") || "-");
+        $("#detailCatatan").text(button.data("catatan") || "—");
 
         $("#detailBerkas").text(button.data("berkas") || "-");
 
@@ -74,5 +84,84 @@ $(document).ready(function () {
         } else {
             $("#detailBerkasLink").attr("href", "#");
         }
+    });
+
+    // DETAIL JABFUNG
+    $(document).on("click", ".btn-detail-jabfung", function () {
+        const button = $(this);
+
+        $("#detailJabfungId").text(button.data("id") || "-");
+
+        $("#detailJabfungNamaJabatan").text(button.data("nama-jabatan") || "-");
+        $("#detailJabfungNama").text(button.data("nama-jabatan") || "-");
+
+        $("#detailJabfungTmtText").text("TMT: " + (button.data("tmt") || "-"));
+        $("#detailJabfungTmt").text(button.data("tmt") || "-");
+
+        $("#detailJabfungTanggal").text(button.data("tanggal") || "-");
+        $("#detailJabfungStatus").text(button.data("status") || "-");
+        $("#detailJabfungCatatan").text(button.data("catatan") || "—");
+
+        $("#detailJabfungBerkas").text(button.data("berkas") || "-");
+
+        const fileUrl = button.data("file-url");
+
+        if (fileUrl) {
+            $("#detailJabfungBerkasLink").attr("href", fileUrl);
+        } else {
+            $("#detailJabfungBerkasLink").attr("href", "#");
+        }
+    });
+
+    // DETAIL PANGGOL
+    $(document).on("click", ".btn-detail-panggol", function () {
+        const button = $(this);
+
+        $("#detailPanggolId").text(button.data("id") || "-");
+
+        $("#detailPanggolPangkatTitle").text(button.data("pangkat") || "-");
+        $("#detailPanggolPangkat").text(button.data("pangkat") || "-");
+
+        $("#detailPanggolGolonganText").text(
+            "Golongan: " + (button.data("golongan") || "-"),
+        );
+        $("#detailPanggolGolongan").text(button.data("golongan") || "-");
+
+        $("#detailPanggolTmt").text(button.data("tmt") || "-");
+        $("#detailPanggolTanggal").text(button.data("tanggal") || "-");
+        $("#detailPanggolStatus").text(button.data("status") || "-");
+        $("#detailPanggolCatatan").text(button.data("catatan") || "—");
+
+        $("#detailPanggolBerkas").text(button.data("berkas") || "-");
+
+        const fileUrl = button.data("file-url");
+
+        if (fileUrl) {
+            $("#detailPanggolBerkasLink").attr("href", fileUrl);
+        } else {
+            $("#detailPanggolBerkasLink").attr("href", "#");
+        }
+    });
+
+    $(document).on("submit", ".form-hapus-surtug", function (event) {
+        event.preventDefault();
+
+        const form = this;
+        const perihal = $(form).data("perihal") || "pengajuan ini";
+
+        Swal.fire({
+            title: "Hapus pengajuan?",
+            text: `Pengajuan "${perihal}" akan dihapus permanen.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal",
+            confirmButtonColor: "#c0392b",
+            cancelButtonColor: "#7a8099",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
     });
 });

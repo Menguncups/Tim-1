@@ -12,7 +12,7 @@
 
             <li class="nav-item">
                 <a href="{{ url('/pimpinan/dashboard') }}"
-                   class="nav-link {{ request()->is('pimpinan/dashboard') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('pimpinan/dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-fill"></i>
                     Dashboard
                 </a>
@@ -27,8 +27,8 @@
             <li class="nav-item">
                 <a class="nav-link d-flex justify-content-between align-items-center
                    {{ request()->is('pimpinan/verifikasi*') ? 'active' : '' }}"
-                   data-bs-toggle="collapse" href="#menuVerifikasi" role="button"
-                   aria-expanded="{{ request()->is('pimpinan/verifikasi*') ? 'true' : 'false' }}">
+                    data-bs-toggle="collapse" href="#menuVerifikasi" role="button"
+                    aria-expanded="{{ request()->is('pimpinan/verifikasi*') ? 'true' : 'false' }}">
                     <span>
                         <i class="bi bi-patch-check-fill me-2"></i>
                         Verifikasi
@@ -36,13 +36,12 @@
                     <i class="bi bi-chevron-down small dropdown-icon"></i>
                 </a>
 
-                <div class="collapse {{ request()->is('pimpinan/verifikasi*') ? 'show' : '' }}"
-                     id="menuVerifikasi">
+                <div class="collapse {{ request()->is('pimpinan/verifikasi*') ? 'show' : '' }}" id="menuVerifikasi">
                     <ul class="submenu-list">
 
                         <li>
                             <a href="{{ url('/pimpinan/verifikasi/surtug') }}"
-                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/surtug') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/surtug') ? 'active' : '' }}">
                                 <i class="bi bi-envelope-paper-fill"></i>
                                 Surat Tugas
                             </a>
@@ -50,7 +49,7 @@
 
                         <li>
                             <a href="{{ url('/pimpinan/verifikasi/jabfung') }}"
-                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/jabfung') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/jabfung') ? 'active' : '' }}">
                                 <i class="bi bi-person-vcard-fill"></i>
                                 Jabfung
                             </a>
@@ -58,7 +57,7 @@
 
                         <li>
                             <a href="{{ url('/pimpinan/verifikasi/panggol') }}"
-                               class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/panggol') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('pimpinan/verifikasi/panggol') ? 'active' : '' }}">
                                 <i class="bi bi-award-fill"></i>
                                 Panggol
                             </a>
@@ -73,10 +72,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        <a href="#" class="logout-link" id="btnLogout">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-        </a>
+        @include('auth.logoutButton')
     </div>
 
 </aside>

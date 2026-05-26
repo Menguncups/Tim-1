@@ -32,7 +32,7 @@
     <div class="wrapper">
 
         {{-- SIDEBAR --}}
-        @include('Sidebar.operatorSidebar')
+        @include('Sidebar.operatorSideBar')
 
         {{-- CONTENT --}}
         <div class="content-area">

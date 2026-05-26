@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\DostenController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OperatorDashboardController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PimpinanDashboardController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +24,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('operator')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('operator.dashboard');
-    });
+    Route::get('/dashboard', [OperatorDashboardController::class, 'index']);
 
     Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
 
@@ -45,18 +45,24 @@ Route::prefix('operator')->group(function () {
     Route::put('/validasi/surtug/{id}/tolak', [VerifikasiController::class, 'tolakSurtug'])
         ->name('operator.surtug.tolak');
 
-    Route::get('/verifikasi/jabfung', [VerifikasiController::class, 'jabfung']);
-    Route::post('/verifikasi/jabfung/{id}', [VerifikasiController::class, 'verifikasiJabfung']);
+    Route::get('/validasi/jabfung', [VerifikasiController::class, 'operatorJabfung'])
+        ->name('operator.jabfung.index');
 
-    Route::get('/verifikasi/panggol', [VerifikasiController::class, 'panggol']);
-    Route::post('/verifikasi/panggol/{id}', [VerifikasiController::class, 'verifikasiPanggol']);
+    Route::put('/validasi/jabfung/{id}/proses', [VerifikasiController::class, 'prosesJabfung'])
+        ->name('operator.jabfung.proses');
 
-    Route::get('/verifikasi/surtug', [VerifikasiController::class, 'surtug']);
-    Route::post('/verifikasi/surtug/{id}', [VerifikasiController::class, 'verifikasiSurtug']);
+    Route::put('/validasi/jabfung/{id}/tolak', [VerifikasiController::class, 'tolakJabfung'])
+        ->name('operator.jabfung.tolak');
 
-    Route::get('/verifikasi/tambah-pegawai', function () {
-        return redirect('/operator/tambah-data');
-    });
+    Route::get('/validasi/panggol', [VerifikasiController::class, 'operatorPanggol'])
+        ->name('operator.panggol.index');
+
+    Route::put('/validasi/panggol/{id}/proses', [VerifikasiController::class, 'prosesPanggol'])
+        ->name('operator.panggol.proses');
+
+    Route::put('/validasi/panggol/{id}/tolak', [VerifikasiController::class, 'tolakPanggol'])
+        ->name('operator.panggol.tolak');
+
 });
 
 Route::prefix('dosten')->group(function () {
@@ -75,6 +81,15 @@ Route::prefix('dosten')->group(function () {
 
     Route::post('/pengajuan/surtug/store', [DostenController::class, 'storeSuratTugas'])
         ->name('dosten.surtug.store');
+
+    Route::get('/pengajuan/surtug/{id}/edit', [DostenController::class, 'editSuratTugas'])
+        ->name('dosten.surtug.edit');
+
+    Route::put('/pengajuan/surtug/{id}/update', [DostenController::class, 'updateSuratTugas'])
+        ->name('dosten.surtug.update');
+
+    Route::delete('/pengajuan/surtug/{id}/hapus', [DostenController::class, 'destroySuratTugas'])
+        ->name('dosten.surtug.destroy');
 
     Route::get('/pengajuan/jabfung', [DostenController::class, 'jabfung'])
         ->name('dosten.jabfung.index');
@@ -103,9 +118,7 @@ Route::prefix('dosten')->group(function () {
 
 Route::prefix('pimpinan')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('pimpinan.dashboard');
-    });
+    Route::get('/dashboard', [PimpinanDashboardController::class, 'index']);
 
     Route::get('/verifikasi/surtug', [VerifikasiController::class, 'pimpinanSurtug'])
         ->name('pimpinan.surtug.index');
@@ -116,12 +129,22 @@ Route::prefix('pimpinan')->group(function () {
     Route::put('/verifikasi/surtug/{id}/tolak', [VerifikasiController::class, 'tolakSurtugPimpinan'])
         ->name('pimpinan.surtug.tolak');
 
-    Route::get('/verifikasi/jabfung', function () {
-        return view('pimpinan.pimpinanJabfung');
-    });
+    Route::get('/verifikasi/jabfung', [VerifikasiController::class, 'pimpinanJabfung'])
+        ->name('pimpinan.jabfung.index');
 
-    Route::get('/verifikasi/panggol', function () {
-        return view('pimpinan.pimpinanPanggol');
-    });
+    Route::put('/verifikasi/jabfung/{id}/terima', [VerifikasiController::class, 'terimaJabfung'])
+        ->name('pimpinan.jabfung.terima');
+
+    Route::put('/verifikasi/jabfung/{id}/tolak', [VerifikasiController::class, 'tolakJabfungPimpinan'])
+        ->name('pimpinan.jabfung.tolak');
+
+    Route::get('/verifikasi/panggol', [VerifikasiController::class, 'pimpinanPanggol'])
+        ->name('pimpinan.panggol.index');
+
+    Route::put('/verifikasi/panggol/{id}/terima', [VerifikasiController::class, 'terimaPanggol'])
+        ->name('pimpinan.panggol.terima');
+
+    Route::put('/verifikasi/panggol/{id}/tolak', [VerifikasiController::class, 'tolakPanggolPimpinan'])
+        ->name('pimpinan.panggol.tolak');
 
 });

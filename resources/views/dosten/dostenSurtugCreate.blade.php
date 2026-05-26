@@ -25,7 +25,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.dostenSidebar')
+        @include('Sidebar.dostenSideBar')
 
         <div class="content-col">
             <main class="content-area">
@@ -86,11 +86,8 @@
                         Form Pengajuan Surat Tugas
                     </div>
 
-                    <form id="formSuratTugas"
-                        action="{{ route('dosten.surtug.store') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                        class="form-body">
+                    <form id="formSuratTugas" action="{{ route('dosten.surtug.store') }}" method="POST"
+                        enctype="multipart/form-data" class="form-body">
                         @csrf
 
                         <div class="section-divider">
@@ -111,12 +108,8 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="text"
-                                        id="nama_pengusul"
-                                        name="nama_pengusul"
-                                        class="field-input"
-                                        value="{{ old('nama_pengusul', $pegawai->nama ?? '') }}"
-                                        maxlength="50"
+                                    <input type="text" id="nama_pengusul" name="nama_pengusul" class="field-input"
+                                        value="{{ old('nama_pengusul', $pegawai->nama ?? '') }}" maxlength="50"
                                         placeholder="Masukkan nama lengkap pengusul">
 
                                     <div class="d-flex justify-content-between">
@@ -137,11 +130,8 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="date"
-                                        id="waktu_pelaksana"
-                                        name="waktu_pelaksana"
-                                        class="field-input"
-                                        value="{{ old('waktu_pelaksana') }}">
+                                    <input type="date" id="waktu_pelaksana" name="waktu_pelaksana"
+                                        class="field-input" value="{{ old('waktu_pelaksana') }}">
 
                                     <span id="error_waktu_pelaksana" class="field-error">
                                         @error('waktu_pelaksana')
@@ -157,14 +147,9 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="number"
-                                        id="lama_pelaksanaan"
-                                        name="lama_pelaksanaan"
-                                        class="field-input"
-                                        value="{{ old('lama_pelaksanaan') }}"
-                                        min="1"
-                                        max="999"
-                                        placeholder="Contoh: 2">
+                                    <input type="number" id="lama_pelaksanaan" name="lama_pelaksanaan"
+                                        class="field-input" value="{{ old('lama_pelaksanaan') }}" min="1"
+                                        max="999" placeholder="Contoh: 2">
 
                                     <span id="error_lama_pelaksanaan" class="field-error">
                                         @error('lama_pelaksanaan')
@@ -184,10 +169,7 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <textarea id="perihal"
-                                        name="perihal"
-                                        class="field-input textarea-input"
-                                        maxlength="50"
+                                    <textarea id="perihal" name="perihal" class="field-input textarea-input" maxlength="50"
                                         placeholder="Masukkan perihal surat">{{ old('perihal') }}</textarea>
 
                                     <div class="d-flex justify-content-between">
@@ -208,11 +190,8 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="file"
-                                        id="berkas_pendukung"
-                                        name="berkas_pendukung"
-                                        class="field-input"
-                                        accept="image/png,image/jpeg,application/pdf">
+                                    <input type="file" id="berkas_pendukung" name="berkas_pendukung"
+                                        class="field-input" accept="image/png,image/jpeg,application/pdf">
 
                                     <span id="error_berkas_pendukung" class="field-error">
                                         @error('berkas_pendukung')

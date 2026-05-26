@@ -172,13 +172,16 @@ class LoginController extends Controller
         return redirect($this->roleRoutes[$role] ?? '/login');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget([
+        $request->session()->forget([
             'auth_user',
             'auth_role',
             'login_user_temp',
         ]);
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('login');
     }

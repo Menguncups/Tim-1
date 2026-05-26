@@ -934,3 +934,27 @@ body {
     color: var(--c-red);
     font-size: 38px;
 }
+
+.du-act-disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.du-act-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.du-act-disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.du-act-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}

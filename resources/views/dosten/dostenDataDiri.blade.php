@@ -5,9 +5,7 @@
     $isTendik = $role === 'tendik';
 
     $roleLabel = $isDosen ? 'Dosen' : 'Tendik';
-    $pageSub = $isDosen
-        ? 'Informasi profil dan biodata dosen'
-        : 'Informasi profil dan biodata tenaga kependidikan';
+    $pageSub = $isDosen ? 'Informasi profil dan biodata dosen' : 'Informasi profil dan biodata tenaga kependidikan';
 
     $roleClass = $isDosen ? 'role-dosen' : 'role-tendik';
 @endphp
@@ -39,7 +37,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.dostenSidebar')
+        @include('Sidebar.dostenSideBar')
 
         <div class="content-area">
 

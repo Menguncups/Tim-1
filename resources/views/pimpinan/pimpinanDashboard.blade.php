@@ -29,7 +29,7 @@
     <div class="app">
 
         {{-- SIDEBAR --}}
-        @include('Sidebar.pimpinanSidebar')
+        @include('Sidebar.pimpinanSideBar')
 
         <!-- MAIN -->
         <div class="main-wrapper">
@@ -56,7 +56,7 @@
                         <div class="stat-icon red">
                             <i class="bi bi-people-fill"></i>
                         </div>
-                        <div class="stat-value" id="cnt-total">0</div>
+                        <div class="stat-value">{{ $totalPegawai }}</div>
                         <div class="stat-label">Total Pegawai</div>
                     </div>
 
@@ -64,7 +64,7 @@
                         <div class="stat-icon blue">
                             <i class="bi bi-mortarboard-fill"></i>
                         </div>
-                        <div class="stat-value" id="cnt-dosen">0</div>
+                        <div class="stat-value">{{ $totalDosen }}</div>
                         <div class="stat-label">Total Dosen</div>
                     </div>
 
@@ -72,7 +72,7 @@
                         <div class="stat-icon green">
                             <i class="bi bi-person-badge-fill"></i>
                         </div>
-                        <div class="stat-value" id="cnt-tendik">0</div>
+                        <div class="stat-value">{{ $totalTendik }}</div>
                         <div class="stat-label">Tenaga Kependidikan</div>
                     </div>
 
@@ -80,7 +80,7 @@
                         <div class="stat-icon amber">
                             <i class="bi bi-envelope-fill"></i>
                         </div>
-                        <div class="stat-value" id="cnt-surat">0</div>
+                        <div class="stat-value">{{ $pengajuanBaru }}</div>
                         <div class="stat-label">Pengajuan Baru</div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <div class="charts-grid">
                     <div class="chart-card">
                         <div class="chart-title">Jenis Kelamin</div>
-                        <div class="chart-subtitle">Rasio gender dosen</div>
+                        <div class="chart-subtitle">Rasio gender pegawai</div>
                         <div class="chart-wrap-sm">
                             <canvas id="chartGender"></canvas>
                         </div>
@@ -141,7 +141,27 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{ asset('js/operatorSideBar.js') }}"></script>
+
+    <script>
+        window.dashboardPimpinanData = {
+            jabfungLabels: @json(array_keys($jabfungChart)),
+            jabfungValues: @json(array_values($jabfungChart)),
+
+            panggolLabels: @json(array_keys($panggolChart)),
+            panggolValues: @json(array_values($panggolChart)),
+
+            genderLabels: @json(array_keys($genderChart)),
+            genderValues: @json(array_values($genderChart)),
+
+            usiaLabels: @json(array_keys($usiaChart)),
+            usiaValues: @json(array_values($usiaChart)),
+        };
+    </script>
+
     <script src="{{ asset('js/dashboard_pimpinan.js') }}"></script>
 </body>
 

@@ -23,7 +23,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.pimpinanSidebar')
+        @include('Sidebar.pimpinanSideBar')
 
         <div class="content-area">
 
@@ -46,8 +46,7 @@
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
@@ -152,16 +151,11 @@
                                     <td class="text-center">
                                         <div class="du-actions">
 
-                                            <button type="button"
-                                                class="du-act du-act-view btn-detail-surtug"
-                                                title="Detail"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalDetailSurtug"
-                                                data-id="{{ $item->id_pengajuan }}"
-                                                data-nama="{{ $item->nama }}"
-                                                data-email="{{ $item->email }}"
-                                                data-nip="{{ $item->nip }}"
-                                                data-homebase="{{ $item->homebase }}"
+                                            <button type="button" class="du-act du-act-view btn-detail-surtug"
+                                                title="Detail" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailSurtug" data-id="{{ $item->id_pengajuan }}"
+                                                data-nama="{{ $item->nama }}" data-email="{{ $item->email }}"
+                                                data-nip="{{ $item->nip }}" data-homebase="{{ $item->homebase }}"
                                                 data-nama-pengusul="{{ $item->nama_pengusul }}"
                                                 data-waktu="{{ \Carbon\Carbon::parse($item->waktu_pelaksana)->format('d-m-Y') }}"
                                                 data-lama="{{ $item->lama_pelaksanaan }} Hari"
@@ -174,39 +168,31 @@
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 
-                                            <a href="{{ $fileUrl }}"
-                                                target="_blank"
-                                                class="du-act du-act-file"
+                                            <a href="{{ $fileUrl }}" target="_blank" class="du-act du-act-file"
                                                 title="Lihat Berkas">
                                                 <i class="bi bi-file-earmark-pdf-fill"></i>
                                             </a>
 
                                             <form action="{{ route('pimpinan.surtug.terima', $item->id_pengajuan) }}"
-                                                method="POST"
-                                                class="d-inline form-terima-surtug"
+                                                method="POST" class="d-inline form-terima-surtug"
                                                 data-nama="{{ $item->nama }}">
                                                 @csrf
                                                 @method('PUT')
 
-                                                <button type="submit"
-                                                    class="du-act du-act-approve"
-                                                    title="Terima">
+                                                <button type="submit" class="du-act du-act-approve" title="Terima">
                                                     <i class="bi bi-check-lg"></i>
                                                 </button>
                                             </form>
 
                                             <form action="{{ route('pimpinan.surtug.tolak', $item->id_pengajuan) }}"
-                                                method="POST"
-                                                class="d-inline form-tolak-surtug"
+                                                method="POST" class="d-inline form-tolak-surtug"
                                                 data-nama="{{ $item->nama }}">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <input type="hidden" name="catatan" class="input-catatan-tolak">
 
-                                                <button type="submit"
-                                                    class="du-act du-act-reject"
-                                                    title="Tolak">
+                                                <button type="submit" class="du-act du-act-reject" title="Tolak">
                                                     <i class="bi bi-x-lg"></i>
                                                 </button>
                                             </form>
@@ -219,8 +205,8 @@
                     </table>
                 </div>
 
-                <div class="modal fade" id="modalDetailSurtug" tabindex="-1"
-                    aria-labelledby="modalDetailSurtugLabel" aria-hidden="true">
+                <div class="modal fade" id="modalDetailSurtug" tabindex="-1" aria-labelledby="modalDetailSurtugLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content detail-modal-content">
 
@@ -233,8 +219,8 @@
                                     <small>Informasi lengkap pengajuan surat tugas</small>
                                 </div>
 
-                                <button type="button" class="btn-close btn-close-white"
-                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body detail-modal-body">

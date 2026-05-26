@@ -244,3 +244,11 @@
         width: 100%;
     }
 }
+
+.logout-button {
+  width: 100%;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}

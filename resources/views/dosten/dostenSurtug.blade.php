@@ -23,7 +23,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.dostenSidebar')
+        @include('Sidebar.dostenSideBar')
 
         <div class="content-area">
 
@@ -51,8 +51,7 @@
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
@@ -68,22 +67,28 @@
                 @endif
 
                 <div class="du-filter-bar">
-                    <button class="du-pill active" data-status="semua">Semua</button>
+                    <button class="du-pill active" data-status="semua">
+                        Semua
+                    </button>
 
                     <button class="du-pill" data-status="menunggu">
-                        <i class="bi bi-hourglass-split"></i> Menunggu
+                        <i class="bi bi-hourglass-split"></i>
+                        Menunggu
                     </button>
 
                     <button class="du-pill" data-status="diproses">
-                        <i class="bi bi-arrow-repeat"></i> Diproses
+                        <i class="bi bi-arrow-repeat"></i>
+                        Diproses
                     </button>
 
                     <button class="du-pill" data-status="diterima">
-                        <i class="bi bi-check-circle-fill"></i> Diterima
+                        <i class="bi bi-check-circle-fill"></i>
+                        Diterima
                     </button>
 
                     <button class="du-pill" data-status="ditolak">
-                        <i class="bi bi-x-circle-fill"></i> Ditolak
+                        <i class="bi bi-x-circle-fill"></i>
+                        Ditolak
                     </button>
                 </div>
 
@@ -131,7 +136,9 @@
                                     <td>{{ $loop->iteration }}</td>
 
                                     <td>
-                                        <div class="du-user-name">{{ $item->nama_pengusul }}</div>
+                                        <div class="du-user-name">
+                                            {{ $item->nama_pengusul }}
+                                        </div>
                                     </td>
 
                                     <td>
@@ -143,7 +150,9 @@
                                     </td>
 
                                     <td>
-                                        <div class="surtug-title">{{ $item->perihal }}</div>
+                                        <div class="surtug-title">
+                                            {{ $item->perihal }}
+                                        </div>
                                     </td>
 
                                     <td>
@@ -167,12 +176,9 @@
                                         <div class="du-actions">
 
                                             {{-- DETAIL --}}
-                                            <button type="button"
-                                                class="du-act du-act-view btn-detail-surtug"
-                                                title="Detail"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalDetailSurtug"
-                                                data-id="{{ $item->id_pengajuan }}"
+                                            <button type="button" class="du-act du-act-view btn-detail-surtug"
+                                                title="Detail" data-bs-toggle="modal"
+                                                data-bs-target="#modalDetailSurtug" data-id="{{ $item->id_pengajuan }}"
                                                 data-nama="{{ $item->nama_pengusul }}"
                                                 data-waktu="{{ \Carbon\Carbon::parse($item->waktu_pelaksana)->format('d-m-Y') }}"
                                                 data-lama="{{ $item->lama_pelaksanaan }} Hari"
@@ -180,9 +186,43 @@
                                                 data-berkas="{{ $item->berkas_pendukung }}"
                                                 data-file-url="{{ $fileUrl }}"
                                                 data-tanggal="{{ \Carbon\Carbon::parse($item->tanggal_pengajuan)->format('d-m-Y') }}"
-                                                data-status="{{ $statusLabel }}">
+                                                data-status="{{ $statusLabel }}"
+                                                data-catatan="{{ $item->catatan ?? '—' }}">
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
+
+                                            @if ($status === 'menunggu')
+                                                {{-- EDIT --}}
+                                                <a href="{{ route('dosten.surtug.edit', $item->id_pengajuan) }}"
+                                                    class="du-act du-act-edit" title="Edit">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
+
+                                                {{-- HAPUS --}}
+                                                <form
+                                                    action="{{ route('dosten.surtug.destroy', $item->id_pengajuan) }}"
+                                                    method="POST" class="d-inline form-hapus-surtug"
+                                                    data-perihal="{{ $item->perihal }}">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button type="submit" class="du-act du-act-delete" title="Hapus">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                {{-- EDIT DISABLED --}}
+                                                <button type="button" class="du-act du-act-disabled"
+                                                    title="Tidak bisa diedit karena status bukan menunggu" disabled>
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </button>
+
+                                                {{-- HAPUS DISABLED --}}
+                                                <button type="button" class="du-act du-act-disabled"
+                                                    title="Tidak bisa dihapus karena status bukan menunggu" disabled>
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            @endif
 
                                         </div>
                                     </td>
@@ -207,8 +247,8 @@
                                     <small>Informasi lengkap pengajuan surat tugas</small>
                                 </div>
 
-                                <button type="button" class="btn-close btn-close-white"
-                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body detail-modal-body">
@@ -250,6 +290,16 @@
                                     <div class="detail-item">
                                         <span>Tanggal Pengajuan</span>
                                         <strong id="detailTanggal">-</strong>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <span>Status</span>
+                                        <strong id="detailStatusText">-</strong>
+                                    </div>
+
+                                    <div class="detail-item">
+                                        <span>Catatan</span>
+                                        <strong id="detailCatatan">-</strong>
                                     </div>
 
                                     <div class="detail-item">

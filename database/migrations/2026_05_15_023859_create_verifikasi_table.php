@@ -10,12 +10,8 @@ return new class extends Migration
     {
         Schema::create('verifikasi', function (Blueprint $table) {
             $table->string('id_verifikasi', 10)->primary();
-            $table->date('tanggal_verifikasi');
-            $table->string('tahap_verifikasi', 20);
-            $table->string('catatan', 250)->nullable();
 
             $table->unsignedBigInteger('user_id');
-
             $table->string('pengajuan_id_pengajuan', 10);
 
             $table->timestamps();

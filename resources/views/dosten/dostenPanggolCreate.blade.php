@@ -25,7 +25,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.dostenSidebar')
+        @include('Sidebar.dostenSideBar')
 
         <div class="content-col">
             <main class="content-area">
@@ -38,7 +38,9 @@
 
                         <div>
                             <h4 class="page-title mb-0">Pengajuan Pangkat Golongan</h4>
-                            <p class="page-sub mb-0">Lengkapi formulir pengajuan pangkat dan golongan</p>
+                            <p class="page-sub mb-0">
+                                Lengkapi formulir pengajuan pangkat dan golongan
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,9 @@
 
                     <div class="intro-banner-text">
                         <h5>Permohonan Pangkat Golongan Baru</h5>
-                        <p>Isi data pangkat, golongan, TMT, dan lampirkan berkas pendukung.</p>
+                        <p>
+                            Pilih pangkat/golongan baru, isi TMT, dan unggah seluruh dokumen pendukung.
+                        </p>
                     </div>
                 </div>
 
@@ -71,13 +75,17 @@
                         Form Pengajuan Pangkat Golongan
                     </div>
 
-                    <form id="formPanggol"
-                        action="{{ route('dosten.panggol.store') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                        class="form-body form-pengajuan"
-                        data-form-type="panggol">
+                    <form id="formPanggol" action="{{ route('dosten.panggol.store') }}" method="POST"
+                        enctype="multipart/form-data" class="form-body form-pengajuan" data-form-type="panggol">
                         @csrf
+
+                        {{-- Data aktif dari database untuk logic validasi --}}
+                        <input type="hidden" id="jabatan_sekarang" value="{{ $pegawai->jabatan_fungsional }}">
+                        <input type="hidden" id="pangkat_sekarang" value="{{ $pegawai->pangkat_golongan }}">
+
+                        {{-- Data yang dikirim ke controller --}}
+                        <input type="hidden" id="pangkat" name="pangkat" value="{{ old('pangkat') }}">
+                        <input type="hidden" id="golongan" name="golongan" value="{{ old('golongan') }}">
 
                         <div class="section-divider">
                             <span>
@@ -88,53 +96,41 @@
 
                         <div class="row g-4 mt-1">
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="field-group">
-                                    <label class="field-label" for="pangkat">
+                                    <label class="field-label" for="pangkat_baru">
                                         <i class="bi bi-award me-1"></i>
-                                        Pangkat
+                                        Pangkat / Golongan Baru
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <select id="pangkat" name="pangkat" class="field-input field-select">
-                                        <option value="">-- Pilih Pangkat --</option>
-                                        @foreach (['Pengatur Muda', 'Pengatur Muda Tk. I', 'Pengatur', 'Pengatur Tk. I', 'Penata Muda', 'Penata Muda Tk. I', 'Penata', 'Penata Tk. I', 'Pembina', 'Pembina Tk. I', 'Pembina Utama Muda', 'Pembina Utama Madya', 'Pembina Utama'] as $pangkat)
-                                            <option value="{{ $pangkat }}" {{ old('pangkat') == $pangkat ? 'selected' : '' }}>
-                                                {{ $pangkat }}
-                                            </option>
-                                        @endforeach
+                                    <select id="pangkat_baru" class="field-input field-select">
+                                        <option value="">-- Pilih Pangkat / Golongan --</option>
+
+                                        <option value="Penata Muda - III/a">Penata Muda - III/a</option>
+                                        <option value="Penata Muda Tk. I - III/b">Penata Muda Tk. I - III/b</option>
+                                        <option value="Penata - III/c">Penata - III/c</option>
+                                        <option value="Penata Tk. I - III/d">Penata Tk. I - III/d</option>
+                                        <option value="Pembina - IV/a">Pembina - IV/a</option>
+                                        <option value="Pembina Tk. I - IV/b">Pembina Tk. I - IV/b</option>
+                                        <option value="Pembina Utama Muda - IV/c">Pembina Utama Muda - IV/c</option>
+                                        <option value="Pembina Utama Madya - IV/d">Pembina Utama Madya - IV/d</option>
+                                        <option value="Pembina Utama - IV/e">Pembina Utama - IV/e</option>
                                     </select>
 
                                     <span id="error_pangkat" class="field-error">
-                                        @error('pangkat') {{ $message }} @enderror
+                                        @error('pangkat')
+                                            {{ $message }}
+                                        @enderror
+
+                                        @error('golongan')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="field-group">
-                                    <label class="field-label" for="golongan">
-                                        <i class="bi bi-patch-check me-1"></i>
-                                        Golongan
-                                        <span class="required-dot">*</span>
-                                    </label>
-
-                                    <select id="golongan" name="golongan" class="field-input field-select">
-                                        <option value="">-- Pilih Golongan --</option>
-                                        @foreach (['II/a', 'II/b', 'II/c', 'II/d', 'III/a', 'III/b', 'III/c', 'III/d', 'IV/a', 'IV/b', 'IV/c', 'IV/d', 'IV/e'] as $golongan)
-                                            <option value="{{ $golongan }}" {{ old('golongan') == $golongan ? 'selected' : '' }}>
-                                                {{ $golongan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    <span id="error_golongan" class="field-error">
-                                        @error('golongan') {{ $message }} @enderror
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="field-group">
                                     <label class="field-label" for="tmt">
                                         <i class="bi bi-calendar3 me-1"></i>
@@ -142,34 +138,89 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="date"
-                                        id="tmt"
-                                        name="tmt"
-                                        class="field-input"
+                                    <input type="date" id="tmt" name="tmt" class="field-input"
                                         value="{{ old('tmt') }}">
 
                                     <span id="error_tmt" class="field-error">
-                                        @error('tmt') {{ $message }} @enderror
+                                        @error('tmt')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="field-group">
-                                    <label class="field-label" for="berkas_pendukung">
-                                        <i class="bi bi-file-earmark-arrow-up me-1"></i>
-                                        Berkas Pendukung
+                                    <label class="field-label" for="dokumen_sk_cpns">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                        Dokumen SK CPNS
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="file"
-                                        id="berkas_pendukung"
-                                        name="berkas_pendukung"
-                                        class="field-input"
-                                        accept="image/png,image/jpeg,application/pdf">
+                                    <input type="file" id="dokumen_sk_cpns" name="dokumen_sk_cpns"
+                                        class="field-input" accept="application/pdf">
 
-                                    <span id="error_berkas_pendukung" class="field-error">
-                                        @error('berkas_pendukung') {{ $message }} @enderror
+                                    <span id="error_dokumen_sk_cpns" class="field-error">
+                                        @error('dokumen_sk_cpns')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="field-group">
+                                    <label class="field-label" for="dokumen_sk_pns">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                        Dokumen SK PNS
+                                        <span class="required-dot">*</span>
+                                    </label>
+
+                                    <input type="file" id="dokumen_sk_pns" name="dokumen_sk_pns"
+                                        class="field-input" accept="application/pdf">
+
+                                    <span id="error_dokumen_sk_pns" class="field-error">
+                                        @error('dokumen_sk_pns')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="field-group">
+                                    <label class="field-label" for="dokumen_pak">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                        Dokumen PAK
+                                        <span class="required-dot">*</span>
+                                    </label>
+
+                                    <input type="file" id="dokumen_pak" name="dokumen_pak" class="field-input"
+                                        accept="application/pdf">
+
+                                    <span id="error_dokumen_pak" class="field-error">
+                                        @error('dokumen_pak')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="field-group">
+                                    <label class="field-label" for="dokumen_publikasi_ilmiah">
+                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                        Berkas Publikasi Ilmiah
+                                        <span class="required-dot">*</span>
+                                    </label>
+
+                                    <input type="file" id="dokumen_publikasi_ilmiah"
+                                        name="dokumen_publikasi_ilmiah" class="field-input" accept="application/pdf">
+
+                                    <span id="error_dokumen_publikasi_ilmiah" class="field-error">
+                                        @error('dokumen_publikasi_ilmiah')
+                                            {{ $message }}
+                                        @enderror
                                     </span>
                                 </div>
                             </div>

@@ -80,10 +80,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        <a href="#" class="logout-link" id="btnLogout">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-        </a>
+        @include('auth.logoutButton')
     </div>
 
 </aside>

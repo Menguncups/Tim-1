@@ -1,59 +1,138 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Fallback logo jika gambar tidak ditemukan
-    document.querySelectorAll("img[data-logo-fallback]").forEach(function (img) {
-        img.addEventListener("error", function () {
-            const fallbackType = img.dataset.logoFallback;
-
-            if (fallbackType === "replace") {
-                const fallback = document.createElement("span");
-                fallback.className = "logo-fallback";
-                fallback.textContent = "FT UNRI";
-                img.replaceWith(fallback);
-                return;
-            }
-
-            if (fallbackType === "hide") {
-                img.style.display = "none";
-            }
-        });
-    });
-
-    // Data sementara dashboard operator
-    // Nanti bisa diganti dari controller Laravel
-    const dashboardData = {
-        totalPegawai: 124,
-        totalDosen: 86,
-        totalTendik: 38,
-        pengajuanBaru: 8,
-    };
-
-    animateCounter("cnt-total", dashboardData.totalPegawai);
-    animateCounter("cnt-dosen", dashboardData.totalDosen);
-    animateCounter("cnt-tendik", dashboardData.totalTendik);
-    animateCounter("cnt-pengajuan", dashboardData.pengajuanBaru);
-});
-
-function animateCounter(elementId, targetValue) {
-    const element = document.getElementById(elementId);
-
-    if (!element) {
+    if (typeof Chart === "undefined") {
         return;
     }
 
-    let currentValue = 0;
-    const duration = 800;
-    const stepTime = 20;
-    const totalSteps = duration / stepTime;
-    const increment = targetValue / totalSteps;
+    const data = window.dashboardOperatorData || {};
 
-    const counter = setInterval(function () {
-        currentValue += increment;
+    const roleCanvas = document.getElementById("chartRole");
+    const statusCanvas = document.getElementById("chartStatus");
 
-        if (currentValue >= targetValue) {
-            element.textContent = targetValue;
-            clearInterval(counter);
-        } else {
-            element.textContent = Math.floor(currentValue);
-        }
-    }, stepTime);
-}
+    Chart.defaults.font = {
+        family: "'Plus Jakarta Sans', sans-serif",
+        size: 11,
+    };
+
+    Chart.defaults.color = "#7a8099";
+
+    const colors = {
+        red: "#b52a20",
+        redLight: "#e85d4a",
+        redDark: "#8c1e15",
+        blue: "#1d4ed8",
+        blueLight: "#60a5fa",
+        green: "#16a34a",
+        amber: "#d97706",
+        purple: "#7c3aed",
+        gray: "#c5c7d0",
+    };
+
+    if (roleCanvas) {
+        new Chart(roleCanvas, {
+            type: "bar",
+            data: {
+                labels: data.roleLabels || [],
+                datasets: [
+                    {
+                        label: "Jumlah Pegawai",
+                        data: data.roleValues || [],
+                        backgroundColor: [
+                            colors.blue,
+                            colors.green,
+                            colors.red,
+                            colors.purple,
+                        ],
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.parsed.y} pegawai`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                        ticks: {
+                            font: {
+                                size: 10,
+                            },
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: "#f0f2f7",
+                        },
+                        ticks: {
+                            precision: 0,
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    if (statusCanvas) {
+        new Chart(statusCanvas, {
+            type: "doughnut",
+            data: {
+                labels: data.statusLabels || [],
+                datasets: [
+                    {
+                        data: data.statusValues || [],
+                        backgroundColor: [
+                            colors.amber, // Menunggu
+                            colors.blue,  // Diproses
+                            colors.green, // Diterima
+                            colors.red,   // Ditolak
+                        ],
+                        borderWidth: 3,
+                        borderColor: "#fff",
+                        hoverOffset: 6,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "68%",
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 10,
+                            padding: 12,
+                            font: {
+                                size: 11,
+                                weight: "600",
+                            },
+                        },
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.parsed} pengajuan`;
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    }
+});

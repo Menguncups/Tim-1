@@ -295,3 +295,41 @@ body {
     align-items: flex-start;
   }
 }
+
+.dashboard-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.chart-card {
+    background: #fff;
+    border-radius: var(--radius-card);
+    padding: 1.3rem 1.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.chart-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.chart-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.chart-wrap {
+    position: relative;
+    height: 240px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}

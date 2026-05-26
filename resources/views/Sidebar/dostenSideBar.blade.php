@@ -12,7 +12,7 @@
 
             <li class="nav-item">
                 <a href="{{ url('/dosten/dashboard') }}"
-                   class="nav-link {{ request()->is('dosten/dashboard') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('dosten/dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-fill"></i>
                     Dashboard
                 </a>
@@ -20,7 +20,7 @@
 
             <li class="nav-item">
                 <a href="{{ url('/dosten/data-diri') }}"
-                   class="nav-link {{ request()->is('dosten/data-diri') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('dosten/data-diri') ? 'active' : '' }}">
                     <i class="bi bi-person-fill"></i>
                     Data Diri
                 </a>
@@ -35,8 +35,8 @@
             <li class="nav-item">
                 <a class="nav-link d-flex justify-content-between align-items-center
                    {{ request()->is('dosten/pengajuan*') ? 'active' : '' }}"
-                   data-bs-toggle="collapse" href="#menuPengajuan" role="button"
-                   aria-expanded="{{ request()->is('dosten/pengajuan*') ? 'true' : 'false' }}">
+                    data-bs-toggle="collapse" href="#menuPengajuan" role="button"
+                    aria-expanded="{{ request()->is('dosten/pengajuan*') ? 'true' : 'false' }}">
                     <span>
                         <i class="bi bi-send-fill me-2"></i>
                         Pengajuan
@@ -44,13 +44,12 @@
                     <i class="bi bi-chevron-down small dropdown-icon"></i>
                 </a>
 
-                <div class="collapse {{ request()->is('dosten/pengajuan*') ? 'show' : '' }}"
-                     id="menuPengajuan">
+                <div class="collapse {{ request()->is('dosten/pengajuan*') ? 'show' : '' }}" id="menuPengajuan">
                     <ul class="submenu-list">
 
                         <li>
                             <a href="{{ url('/dosten/pengajuan/surtug') }}"
-                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/surtug') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('dosten/pengajuan/surtug') ? 'active' : '' }}">
                                 <i class="bi bi-envelope-paper-fill"></i>
                                 Surat Tugas
                             </a>
@@ -58,7 +57,7 @@
 
                         <li>
                             <a href="{{ url('/dosten/pengajuan/jabfung') }}"
-                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/jabfung') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('dosten/pengajuan/jabfung') ? 'active' : '' }}">
                                 <i class="bi bi-person-vcard-fill"></i>
                                 Jabfung
                             </a>
@@ -66,7 +65,7 @@
 
                         <li>
                             <a href="{{ url('/dosten/pengajuan/panggol') }}"
-                               class="nav-link sub-link {{ request()->is('dosten/pengajuan/panggol') ? 'active' : '' }}">
+                                class="nav-link sub-link {{ request()->is('dosten/pengajuan/panggol') ? 'active' : '' }}">
                                 <i class="bi bi-award-fill"></i>
                                 Panggol
                             </a>
@@ -81,10 +80,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        <a href="#" class="logout-link" id="btnLogout">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-        </a>
+        @include('auth.logoutButton')
     </div>
 
 </aside>

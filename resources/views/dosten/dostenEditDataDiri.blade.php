@@ -28,7 +28,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.dostenSidebar')
+        @include('Sidebar.dostenSideBar')
 
         <div class="content-area">
 
@@ -68,10 +68,7 @@
                                         <span class="required-dot">*</span>
                                     </label>
 
-                                    <input type="text"
-                                        name="no_hp"
-                                        id="no_hp"
-                                        class="field-input"
+                                    <input type="text" name="no_hp" id="no_hp" class="field-input"
                                         value="{{ old('no_hp', $pegawai->no_hp ?? '') }}"
                                         placeholder="Contoh: 08123456789">
 
@@ -84,10 +81,7 @@
                                         No. HP Darurat
                                     </label>
 
-                                    <input type="text"
-                                        name="no_hp_darurat"
-                                        id="no_hp_darurat"
-                                        class="field-input"
+                                    <input type="text" name="no_hp_darurat" id="no_hp_darurat" class="field-input"
                                         value="{{ old('no_hp_darurat', $pegawai->no_hp_darurat ?? '') }}"
                                         placeholder="Contoh: 08123456789">
 
@@ -100,10 +94,7 @@
                                         Foto Profil Baru
                                     </label>
 
-                                    <input type="file"
-                                        name="foto"
-                                        id="inputFoto"
-                                        class="field-input"
+                                    <input type="file" name="foto" id="inputFoto" class="field-input"
                                         accept="image/png, image/jpeg">
 
                                     <span id="error_foto" class="field-error"></span>
@@ -128,14 +119,10 @@
 
                                     <div class="preview-photo-wrap">
                                         @if (!empty($pegawai->foto))
-                                            <img id="imgPreview"
-                                                src="{{ asset('photo/' . $pegawai->foto) }}"
-                                                alt="Foto {{ $pegawai->nama }}"
-                                                class="preview-photo">
+                                            <img id="imgPreview" src="{{ asset('photo/' . $pegawai->foto) }}"
+                                                alt="Foto {{ $pegawai->nama }}" class="preview-photo">
                                         @else
-                                            <img id="imgPreview"
-                                                src=""
-                                                alt="Preview Foto"
+                                            <img id="imgPreview" src="" alt="Preview Foto"
                                                 class="preview-photo d-none">
 
                                             <div id="previewFallback" class="preview-fallback">

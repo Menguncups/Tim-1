@@ -30,7 +30,7 @@
 
     <div class="wrapper">
 
-        @include('Sidebar.operatorSidebar')
+        @include('Sidebar.operatorSideBar')
 
         <div class="content-col">
             <main class="content-area">
@@ -523,7 +523,7 @@
                 </div>
 
             </main>
-                        {{-- FOOTER --}}
+            {{-- FOOTER --}}
             @include('Footer.footer')
         </div>
 
